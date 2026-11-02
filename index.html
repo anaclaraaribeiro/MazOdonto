@@ -1,0 +1,1292 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mazon Odontologia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..700&family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=Kaushan+Script&display=swap">
+<style>
+/* Layout: um palco 3D fixo que viaja entre âncoras (hero e encaixe);
+   as seções de pessoas (Dr. Kleber, história, missão, contato) cobrem o palco com fotos reais.
+   Cores da marca atual: teal profundo do perfil + dourado do logotipo. */
+:root{
+  --teal-ink:#051F1E;
+  --teal:#0A3836;
+  --teal-2:#0F5A55;
+  --gold:#D2B064;
+  --gold-deep:#8E6E2A;
+  --porcelain:#EFEEE8;
+  --porcelain-2:#E4E5DD;
+  --ink:#0B2321;
+  --mist:#A6BFBA;
+  --stone:#56696A;
+  --line-dark:rgba(210,176,100,.24);
+  --line-light:rgba(11,35,33,.14);
+
+  --f-display:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;
+  --f-serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-script:"Kaushan Script","Brush Script MT",cursive;
+
+  --gut:max(clamp(16px,4vw,56px), env(safe-area-inset-left,0px));
+  --gut-r:max(clamp(16px,4vw,56px), env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--teal);color:var(--porcelain);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--teal-ink)}
+a{color:inherit}
+img{max-width:100%;display:block}
+h1,h2,h3,p,figure{margin:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+
+.wrap{max-width:1360px;margin-inline:auto;padding-left:var(--gut);padding-right:var(--gut-r)}
+.label{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.eyebrow{font-size:.74rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.7em}
+.eyebrow::before{content:"";width:22px;height:1px;background:currentColor}
+.h2{font-family:var(--f-display);font-weight:500;font-variation-settings:"wdth" 82,"opsz" 96;font-size:clamp(2.2rem,4.6vw,4.4rem);line-height:1;letter-spacing:-.035em;text-wrap:balance}
+.h2 em.s{font-size:1.08em;letter-spacing:-.02em}
+
+/* ---------- logo ---------- */
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--gold)}
+.logo svg{width:34px;height:34px;flex:none}
+.logo-word{display:grid;line-height:1}
+.logo-word b{font-family:var(--f-script);font-weight:400;font-size:1.6rem;letter-spacing:0;line-height:.95}
+.logo-word small{font-size:.5rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;margin-top:2px}
+
+/* ---------- 3D stage ---------- */
+#scene{position:fixed;inset:0;width:100vw;height:100vh;z-index:2;pointer-events:none;display:block}
+.no-gl #scene,.no-gl .orb-ui{display:none}
+.orb-ui{position:fixed;inset:0;z-index:3;pointer-events:none}
+.orb-label{position:absolute;left:0;top:0;font-size:.68rem;font-weight:600;letter-spacing:.14em;line-height:1;text-transform:uppercase;white-space:nowrap;color:var(--porcelain);padding:.8em .86em .8em 1em;border:1px solid var(--line-dark);border-radius:99px;background:rgba(5,31,30,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);will-change:transform}
+.orb-line{position:absolute;left:0;top:0;height:1px;background:linear-gradient(90deg,rgba(210,176,100,0),rgba(210,176,100,.85));transform-origin:0 0;will-change:transform}
+.orb-dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(210,176,100,.2);will-change:transform}
+
+/* ---------- header ---------- */
+/* a floating glass bar: transparent over the hero, denser once the page scrolls */
+.hdr{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);left:0;right:0;z-index:10;padding-left:var(--gut);padding-right:var(--gut-r);pointer-events:none}
+.hdr-in{pointer-events:auto;max-width:1240px;margin-inline:auto;display:flex;align-items:center;gap:18px;height:62px;padding:0 8px 0 18px;border-radius:99px;background:rgba(5,31,30,.28);border:1px solid rgba(239,238,232,.12);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);transition:background .4s,box-shadow .4s,border-color .4s}
+.hdr.is-solid .hdr-in{background:rgba(5,31,30,.8);border-color:rgba(210,176,100,.22);box-shadow:0 18px 40px -22px rgba(0,0,0,.55)}
+.nav{display:flex;gap:4px;margin-left:auto;padding:4px;border-radius:99px;background:rgba(239,238,232,.05)}
+.nav a{position:relative;text-decoration:none;font-size:.88rem;font-weight:500;color:var(--mist);padding:.55em 1em;border-radius:99px;transition:color .25s,background .25s}
+.nav a:hover{color:var(--porcelain);background:rgba(239,238,232,.07)}
+.nav a.is-active{color:var(--teal-ink);background:var(--gold)}
+.hdr-live{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;color:var(--mist);margin-left:8px;white-space:nowrap}
+.hdr-live i{width:8px;height:8px;border-radius:50%;background:#6FD39A;animation:live 2s infinite}
+@keyframes live{0%{box-shadow:0 0 0 0 rgba(111,211,154,.6)}70%{box-shadow:0 0 0 9px rgba(111,211,154,0)}100%{box-shadow:0 0 0 0 rgba(111,211,154,0)}}
+.pill{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:.88rem;padding:.6em 1.05em .6em .75em;border-radius:99px;background:var(--gold);color:var(--teal-ink);transition:box-shadow .2s}
+.pill:hover{box-shadow:0 0 0 5px rgba(210,176,100,.22)}
+.pill svg{width:18px;height:18px}
+
+/* ---------- buttons ---------- */
+.btn{position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-weight:600;font-size:1rem;padding:1em 1.2em 1em 1.5em;border-radius:99px;background:var(--gold);color:var(--teal-ink);transition:box-shadow .3s,padding .35s cubic-bezier(.2,.7,.2,1)}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.btn:hover{box-shadow:0 14px 34px -14px rgba(210,176,100,.7);padding-right:1.45em}
+.btn:hover::before{transform:translateX(120%)}
+.btn .arr{width:28px;height:28px;border-radius:50%;background:var(--teal-ink);color:var(--gold);display:grid;place-items:center;font-size:.9rem;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.btn:hover .arr{transform:rotate(-45deg)}
+/* scroll-in reveal; only applied when the script runs, so the page is complete without it */
+.js-rv .rv{opacity:0;translate:0 36px;transition:opacity .9s cubic-bezier(.2,.7,.2,1) var(--d,0s),translate 1.1s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.js-rv .rv.in{opacity:1;translate:0 0}
+@media (prefers-reduced-motion:reduce){.js-rv .rv{opacity:1;translate:none;transition:none}}
+/* the same light sweep and turning arrow on every other button */
+.pill,.btn-dark,.btn-ig{position:relative;overflow:hidden;isolation:isolate}
+.pill::before,.btn-dark::before,.btn-ig::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.pill:hover::before,.btn-dark:hover::before,.btn-ig:hover::before{transform:translateX(120%)}
+.btn-dark > span[aria-hidden],.tr-link > span[aria-hidden]{display:inline-block;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.btn-dark:hover > span[aria-hidden]{transform:rotate(-45deg)}
+.pill svg,.btn-ig svg{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.pill:hover svg,.btn-ig:hover svg{transform:rotate(-12deg) scale(1.08)}
+.btn-dark:hover,.btn-ig:hover{box-shadow:0 14px 34px -14px rgba(10,56,54,.7)}
+.pill:hover{box-shadow:0 10px 26px -10px rgba(210,176,100,.75)}
+.btn-line{background:transparent;color:inherit;border:1px solid currentColor;padding:.95em 1.4em}
+.btn-line:hover{box-shadow:0 0 0 6px rgba(210,176,100,.14)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:radial-gradient(110% 80% at 50% 38%,#11605A 0%,var(--teal) 52%,var(--teal-ink) 100%)}
+.hero-in{position:relative;min-height:100vh;min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;padding-top:104px;padding-bottom:36px;gap:16px;max-width:none;padding-left:max(16px,2.4vw,env(safe-area-inset-left,0px));padding-right:max(16px,2.4vw,env(safe-area-inset-right,0px))}
+.hero-meta{position:relative;z-index:3;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--mist)}
+.hero-meta span{display:inline-flex;align-items:center;gap:.7em}
+.hero-meta span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.hero-h{position:relative;z-index:1;align-self:center;font-family:var(--f-display);font-weight:500;font-variation-settings:"wdth" 78,"opsz" 96;font-size:clamp(3rem,7.6vw,9rem);line-height:.92;letter-spacing:-.045em;display:grid;gap:.1em;justify-self:stretch}
+.hero-h .l1{justify-self:start}
+.hero-h .l2{justify-self:end}
+.hero-h em.s{color:var(--gold);font-size:1.12em;letter-spacing:-.03em}
+.hero-stage{position:absolute;left:50%;top:50%;width:min(36vw,46vh);height:min(60vh,640px);transform:translate(-50%,-48%);pointer-events:none}
+.hero-foot{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.hero-lead{max-width:36ch;font-size:clamp(1rem,1.25vw,1.15rem);opacity:.9;margin-bottom:22px}
+.doc{display:flex;align-items:center;gap:14px;padding:8px 22px 8px 8px;border-radius:99px;border:1px solid var(--line-dark);background:rgba(5,31,30,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);text-decoration:none}
+.doc img{width:58px;height:58px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:1.5px solid var(--gold)}
+.doc b{display:block;font-weight:600;font-size:.98rem}
+.doc span{display:block;color:var(--mist);font-size:.8rem}
+
+/* ---------- trust bar ---------- */
+.trust{position:relative;z-index:3;border-block:1px solid var(--line-dark);background:var(--teal-ink);overflow:hidden}
+.trust-track{display:flex;width:max-content;animation:marq 40s linear infinite}
+.trust-set{display:flex;align-items:center;gap:44px;padding:22px 22px}
+.trust-set span{display:inline-flex;align-items:center;gap:44px;font-family:var(--f-display);font-variation-settings:"wdth" 85;font-size:clamp(1.1rem,2vw,1.55rem);letter-spacing:-.01em;white-space:nowrap}
+.trust-set span::after{content:"";width:24px;height:9px;border:1.3px solid var(--gold);border-radius:50%;transform:rotate(-18deg)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- the missing piece: exploded view, like a product spec sheet ---------- */
+.asm{position:relative;height:300vh;background:var(--porcelain)}
+.asm-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:linear-gradient(180deg,var(--porcelain) 0%,#E6E9E3 100%);color:var(--ink)}
+.ghost{position:absolute;left:50%;transform:translateX(-50%);z-index:1;font-family:var(--f-display);font-weight:500;font-variation-settings:"wdth" 75;font-size:clamp(5rem,19vw,19rem);letter-spacing:-.04em;line-height:.8;color:rgba(11,35,33,.045);white-space:nowrap;pointer-events:none;user-select:none}
+.ghost.g1{top:13%}
+.ghost.g2{bottom:15%}
+.asm-in{position:relative;z-index:3;height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"top top top" "side stage space" "steps steps steps";padding-top:92px;padding-bottom:28px;gap:0 24px}
+.asm-top{grid-area:top;display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+.asm-top .eyebrow{color:var(--gold-deep);margin-top:.6em}
+.asm-h{font-family:var(--f-display);font-weight:450;font-variation-settings:"wdth" 82,"opsz" 96;font-size:clamp(2rem,3.8vw,3.9rem);line-height:1;letter-spacing:-.035em;text-align:right;max-width:15ch}
+.asm-h em.s{color:var(--teal-2)}
+.asm-side{grid-area:side;align-self:center;display:grid;gap:56px;max-width:300px}
+.asm-note{display:grid;gap:12px;font-size:.95rem;color:var(--stone);line-height:1.55}
+.asm-note::before{content:"";width:36px;height:1.5px;background:var(--gold-deep)}
+.asm-note:nth-child(2){margin-left:clamp(0px,6vw,90px)}
+.asm-stage{grid-area:stage;min-height:0;height:100%}
+.asm-steps{grid-area:steps;list-style:none;margin:0;padding:18px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line-light)}
+.asm-steps li{display:grid;gap:2px;padding:0 20px}
+.asm-steps li + li{border-left:1px solid var(--line-light)}
+.asm-steps b{font-family:var(--f-display);font-weight:450;font-size:1.4rem;color:var(--teal-2);letter-spacing:-.02em}
+.asm-steps span{font-size:.9rem;font-weight:500}
+.asm-ui{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:0}
+.part{position:absolute;left:0;top:0;display:grid;gap:3px;will-change:transform;max-width:220px}
+.part b{font-size:.8rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);display:flex;align-items:center;gap:8px}
+.part b::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold-deep);box-shadow:0 0 0 4px rgba(142,110,42,.15)}
+.part span{font-size:.82rem;color:var(--stone);padding-left:16px}
+.part-line{position:absolute;left:0;top:0;height:1px;background:rgba(11,35,33,.35);transform-origin:0 0;will-change:transform}
+.part-dot{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--ink);will-change:transform}
+.asm-lock{position:absolute;right:var(--gut-r);top:50%;transform:translateY(-50%);z-index:3;display:flex;gap:10px;align-items:center;padding:.6em 1.1em;border-radius:99px;background:var(--teal);color:var(--porcelain);font-size:.85rem;font-weight:600;opacity:0;transition:opacity .5s}
+.asm.is-locked .asm-lock{opacity:1}
+.asm-lock::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold)}
+
+/* ---------- Dr. Kleber: one doctor, one continuous relationship ---------- */
+.about{position:relative;z-index:3;background:var(--teal-ink);color:var(--porcelain);overflow:hidden}
+.about-in{position:relative;padding-block:clamp(96px,11vw,150px);display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,6vw,96px);align-items:center}
+.doc-card{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/5;max-width:100%;background:var(--teal)}
+.doc-card img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.doc-card:hover img{transform:scale(1.04)}
+.doc-card figcaption{position:absolute;left:16px;right:16px;bottom:16px;padding:16px 18px;border-radius:18px;background:rgba(10,56,54,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;gap:2px}
+.doc-card figcaption b{font-weight:600;font-size:1.02rem}
+.doc-card figcaption span{color:var(--gold);font-size:.85rem}
+.about-copy{display:grid;gap:26px;min-width:0}
+.about-copy .eyebrow{color:var(--gold)}
+.about-copy h2{font-family:var(--f-display);font-weight:500;font-variation-settings:"wdth" 82,"opsz" 96;font-size:clamp(2.4rem,4.8vw,4.6rem);line-height:1;letter-spacing:-.04em;text-wrap:balance}
+.about-copy h2 em.s{color:var(--gold)}
+.about-copy > p{max-width:56ch;color:var(--mist);font-size:1.05rem}
+.pts{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid rgba(239,238,232,.12)}
+.pts li{display:grid;grid-template-columns:46px minmax(0,1fr);gap:18px;padding:20px 0;border-bottom:1px solid rgba(239,238,232,.14)}
+.pts .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(210,176,100,.12);color:var(--gold)}
+.pts .ic svg{width:22px;height:22px}
+.pts b{display:block;font-weight:600;font-size:1.14rem;color:var(--porcelain);margin-bottom:4px}
+.pts span{color:rgba(239,238,232,.86);font-size:1.02rem}
+.about-cta{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.about-cta .btn{background:var(--porcelain)}
+.about-cta a.more{color:var(--porcelain);font-weight:600;text-decoration:none}
+.about-cta a.more:hover{color:var(--gold)}
+
+/* ---------- a day at the clinic ---------- */
+.daily{position:relative;z-index:3;background:#D9E3DE;color:var(--ink);overflow:hidden}
+.daily-in{position:relative;padding-block:clamp(88px,10vw,130px);display:grid;gap:36px}
+.daily-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 48px;align-items:end}
+.daily-head p{color:#40585A;max-width:40ch;justify-self:end;font-size:1.05rem}
+.daily-more{justify-self:center;margin-top:8px}
+.btn-ig{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;padding:.95em 1.4em;border-radius:99px;background:var(--teal);color:var(--porcelain);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.btn-ig svg{width:20px;height:20px;color:var(--gold)}
+.btn-ig:hover{transform:translateY(-3px);box-shadow:0 18px 36px -18px rgba(5,31,30,.7)}
+.daily-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding-bottom:36px}
+.daily-grid figure{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:3/4;max-width:100%;background:var(--teal);cursor:default;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .4s,box-shadow .5s}
+.daily-grid figure:nth-child(even){transform:translateY(36px)}
+.daily-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.daily-grid figure::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,31,30,0) 45%,rgba(5,31,30,.85) 100%);opacity:.75;transition:opacity .5s}
+.daily-grid figcaption{position:absolute;left:18px;right:18px;bottom:18px;z-index:2;color:var(--porcelain);display:grid;gap:4px}
+.daily-grid figcaption b{font-family:var(--f-display);font-weight:500;font-size:1.25rem;letter-spacing:-.02em}
+.daily-grid figcaption span{font-size:.88rem;color:#D7E2DE;max-height:0;opacity:0;overflow:hidden;transition:max-height .5s,opacity .4s}
+.daily-grid figure .tag{position:absolute;top:14px;left:14px;z-index:2;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.45em .8em;border-radius:99px;background:rgba(239,238,232,.9);color:var(--teal);transform:translateY(-8px);opacity:0;transition:.4s}
+.daily-grid:has(figure:hover) figure:not(:hover){opacity:.62}
+.daily-grid figure:hover{opacity:1;box-shadow:0 30px 60px -30px rgba(5,31,30,.6)}
+.daily-grid figure:nth-child(odd):hover{transform:translateY(-10px)}
+.daily-grid figure:nth-child(even):hover{transform:translateY(26px)}
+.daily-grid figure:hover img{transform:scale(1.08)}
+.daily-grid figure:hover::after{opacity:1}
+.daily-grid figure:hover figcaption span{max-height:4em;opacity:1}
+.daily-grid figure:hover .tag{transform:none;opacity:1}
+
+/* ---------- line shapes in the background (cogo-style grid of rounded forms) ---------- */
+.deco{position:absolute;pointer-events:none;color:var(--gold);opacity:.13;width:min(620px,70vw);height:auto;overflow:visible;-webkit-mask-image:radial-gradient(closest-side,#000 35%,transparent 100%);mask-image:radial-gradient(closest-side,#000 35%,transparent 100%)}
+.deco.on-light{color:var(--teal);opacity:.08}
+.pill-tag{display:inline-flex;align-items:center;gap:.5em;font-size:.82rem;font-weight:500;padding:.45em 1em;border-radius:99px;border:1px solid var(--line-light);width:max-content}
+.on-dark .pill-tag,.pill-tag.dark{border-color:var(--line-dark)}
+
+/* ---------- mission statement with inset photos; words fill in as you scroll ---------- */
+.mission{position:relative;z-index:3;background:var(--porcelain);color:var(--ink);overflow:hidden}
+.mission-in{position:relative;padding-block:clamp(88px,10vw,140px);display:grid;gap:clamp(48px,6vw,72px)}
+.sec-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--line-light)}
+.sec-bar .note{color:var(--stone);font-size:.88rem}
+.sec-bar a.note{color:var(--gold-deep);font-weight:600;text-decoration:none}
+.sec-bar a.note:hover{text-decoration:underline;text-underline-offset:4px}
+.statement{position:relative;font-family:var(--f-display);font-weight:450;font-variation-settings:"wdth" 84,"opsz" 96;font-size:clamp(2rem,4.6vw,4.6rem);line-height:1.1;letter-spacing:-.035em;color:var(--ink);padding-left:clamp(0px,17vw,270px)}
+.statement em.s{color:var(--teal-2);font-size:1.06em}
+.statement .w{transition:color .35s ease}
+.statement .w.dim{color:#B9C3C0}
+.statement .ph{display:inline-block;vertical-align:middle;width:clamp(90px,11vw,170px);aspect-ratio:4/3;border-radius:999px;overflow:hidden;margin:0 .12em;transform:translateY(-.08em);box-shadow:0 14px 30px -18px rgba(5,31,30,.5)}
+.statement .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+.statement .ph:hover img{transform:scale(1.1)}
+.statement .ph.round{width:clamp(70px,7vw,110px);aspect-ratio:1}
+.statement-photo{position:absolute;left:0;top:.2em;width:clamp(130px,14vw,220px);aspect-ratio:3/4;border-radius:24px;overflow:hidden;transform:rotate(-4deg);box-shadow:0 24px 50px -24px rgba(5,31,30,.45);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.statement-photo:hover{transform:rotate(0deg) scale(1.03)}
+.statement-photo img{width:100%;height:100%;object-fit:cover}
+.statement-photo .badge{position:absolute;right:-1px;bottom:12px;background:var(--gold);color:var(--teal-ink);font-family:var(--f-body);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.45em .8em;border-radius:99px 0 0 99px}
+.mission-eyebrow{color:var(--gold-deep)}
+.mission-in{gap:clamp(36px,4.5vw,56px)}
+.values-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-left:clamp(0px,17vw,270px)}
+.values-row .label{color:var(--stone);margin-right:10px}
+.values-row .pill-tag{background:var(--porcelain-2);border-color:transparent;color:#2D4442;transition:background .3s,color .3s,transform .3s}
+.values-row .pill-tag:hover{background:var(--teal);color:var(--porcelain);transform:translateY(-2px)}
+.stat-band{position:relative;overflow:hidden;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-radius:28px;background:linear-gradient(120deg,var(--teal) 0%,var(--teal-ink) 100%);color:var(--porcelain)}
+.stat{position:relative;display:grid;gap:8px;padding:clamp(22px,2.6vw,34px)}
+.stat + .stat::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:rgba(210,176,100,.3)}
+.stat b{font-family:var(--f-display);font-weight:450;font-variation-settings:"wdth" 85;font-size:clamp(2.4rem,4vw,3.6rem);letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.stat b small{font-size:.45em;color:var(--gold);margin-left:.08em;letter-spacing:0}
+.stat span{color:var(--mist);font-size:.9rem}
+
+/* ---------- treatments: list, photo and detail card ---------- */
+.tr{position:relative;z-index:3;background:var(--porcelain-2);color:var(--ink);overflow:hidden}
+.tr-in{position:relative;padding-block:clamp(88px,10vw,140px);display:grid;gap:clamp(36px,5vw,56px)}
+.tr-head{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:20px 48px;align-items:end}
+.tr-head .eyebrow{grid-column:1/-1;color:var(--gold-deep)}
+.tr-head p:not(.eyebrow){color:var(--stone);max-width:38ch;font-size:1.05rem;justify-self:end}
+.tr-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr) minmax(0,1fr);grid-template-rows:600px;gap:20px;align-items:stretch}
+.tr-list{list-style:none;margin:0;padding:0;align-self:start}
+.tr-list li{border-bottom:1px solid var(--line-light)}
+.tr-btn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 12px;padding:15px 2px}
+.tr-btn .nm{font-family:var(--f-display);font-weight:450;font-variation-settings:"wdth" 85;font-size:clamp(1.3rem,2vw,1.85rem);letter-spacing:-.025em;line-height:1.1;color:#8A9896;transition:color .3s}
+.tr-btn .pl{width:26px;height:26px;position:relative;color:#8A9896;transition:transform .35s,color .3s}
+.tr-btn .pl::before,.tr-btn .pl::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;background:currentColor;transform:translate(-50%,-50%)}
+.tr-btn .pl::after{transform:translate(-50%,-50%) rotate(90deg)}
+.tr-btn .sub{grid-column:1/-1;font-size:.86rem;color:var(--stone);max-height:0;overflow:hidden;opacity:0;transition:max-height .4s,opacity .3s}
+.tr-btn:hover .nm,.tr-btn[aria-selected="true"] .nm{color:var(--ink)}
+.tr-btn[aria-selected="true"] .pl{transform:rotate(45deg);color:var(--gold-deep)}
+.tr-btn[aria-selected="true"] .sub{max-height:3em;opacity:1}
+.tr-btn:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px}
+.tr-photo{position:relative;border-radius:28px;overflow:hidden;background:var(--teal)}
+.tr-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .6s ease,transform 1.2s ease}
+.tr-photo img.is-on{opacity:1;transform:none}
+.tr-photo .ico{position:absolute;left:18px;top:18px;z-index:2;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:rgba(5,31,30,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:var(--gold);border:1px solid var(--line-dark)}
+.tr-photo .ico svg{width:32px;height:32px}
+.tr-card{position:relative;border-radius:28px;background:var(--porcelain);padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;gap:22px;overflow:auto;min-width:0}
+.tr-card .btn-dark{margin-top:auto}
+.tr-card .say{font-family:var(--f-display);font-weight:450;font-variation-settings:"wdth" 86;font-size:clamp(1.35rem,1.9vw,1.75rem);line-height:1.2;letter-spacing:-.02em;color:var(--ink)}
+.tr-card .say em.s{color:var(--teal-2);font-size:1.08em}
+.tr-card p{color:#3B5250}
+.tr-card .rule{height:1px;background:var(--line-light)}
+.tr-card .label{color:var(--gold-deep)}
+.tr-tags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0;padding:0;list-style:none}
+.tr-tags li{font-size:.84rem;padding:.4em .9em;border-radius:99px;background:var(--porcelain-2);color:#2D4442}
+.btn-dark{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:.92rem;padding:.85em 1.25em;border-radius:99px;background:var(--teal);color:var(--porcelain);transition:box-shadow .25s;justify-self:start;width:max-content;max-width:100%}
+.btn-dark:hover{box-shadow:0 0 0 5px rgba(15,90,85,.18)}
+.tr-fade{transition:opacity .35s ease}
+.tr-fade.is-swapping{opacity:0}
+
+/* ---------- why: an orbit of reasons around a real smile ---------- */
+.why{position:relative;z-index:3;background:linear-gradient(180deg,var(--porcelain) 0%,#E4EAE6 100%);color:var(--ink);overflow:hidden}
+.why-in{position:relative;padding-block:clamp(72px,8vw,110px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,3vw,48px);align-items:center}
+.why-copy{display:grid;gap:22px;justify-items:start}
+.why-copy .eyebrow{color:var(--gold-deep)}
+.why-copy .h2{font-size:clamp(2.1rem,3.7vw,3.8rem);white-space:nowrap}
+.why-copy p:not(.eyebrow){color:var(--stone);max-width:40ch;font-size:1.05rem}
+.orbit-wrap{position:relative;width:min(100%,580px);aspect-ratio:1;max-width:100%;justify-self:center}
+.signs{width:100%;max-width:520px;display:grid;gap:14px;padding:22px 24px;border-radius:24px;background:rgba(255,255,255,.6);border:1px solid var(--line-light);box-shadow:0 20px 44px -30px rgba(5,31,30,.35)}
+.signs .label{color:var(--gold-deep)}
+.signs ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px}
+.signs li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:#2D4442;line-height:1.35}
+.signs li::before{content:"";flex:none;width:18px;height:18px;margin-top:-1px;border-radius:50%;background:var(--teal) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23D2B064%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M6 12.5l4 4 8-9%27/%3E%3C/svg%3E") center/11px no-repeat}
+.orbit-ring{position:absolute;inset:9%;border-radius:50%;border:1px solid rgba(11,35,33,.3)}
+.orbit-ring.r2{inset:20%;border-style:dashed;border-color:rgba(142,110,42,.45)}
+.orbit-spin{position:absolute;inset:9%;border-radius:50%;animation:spin 26s linear infinite}
+.orbit-spin::before{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 6px rgba(210,176,100,.25)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orbit-face{position:absolute;inset:27%;border-radius:50%;overflow:hidden;box-shadow:0 30px 60px -30px rgba(5,31,30,.55);border:6px solid var(--porcelain)}
+.orbit-face img{width:100%;height:100%;object-fit:cover;object-position:40% 50%}
+.reason{position:absolute;width:190px;display:grid;justify-items:center;gap:8px;text-align:center;transform:translate(-50%,-50%);padding:10px 12px 12px;border-radius:20px;background:rgba(236,239,234,.92);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.reason b{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;letter-spacing:.12em;line-height:1;text-transform:uppercase;padding:.75em .9em .75em 1em;border-radius:99px;background:var(--porcelain);box-shadow:0 8px 24px -14px rgba(5,31,30,.45);transition:background .3s,color .3s}
+.reason b::before{content:"";width:9px;height:9px;border-radius:50%;border:2px solid var(--gold-deep)}
+.reason span{font-size:.8rem;color:var(--stone);line-height:1.35;max-width:22ch}
+.reason:hover b{background:var(--teal);color:var(--porcelain)}
+
+/* ---------- reviews ---------- */
+.rev{position:relative;z-index:3;background:radial-gradient(80% 90% at 85% 10%,#0E4744 0%,var(--teal-ink) 60%);color:var(--porcelain);overflow:hidden}
+.rev .eyebrow{color:var(--gold)}
+.rev .h2 em.s{color:var(--gold)}
+.rev .rev-text{color:var(--porcelain)}
+.rev .rev-photos .small{border-color:var(--teal-ink)}
+.rev .rev-score a{font-size:.78rem;color:var(--teal-2);font-weight:600;text-decoration:none}
+.rev .rev-score a:hover{text-decoration:underline;text-underline-offset:3px}
+.rev .rev-foot{border-top-color:rgba(239,238,232,.14)}
+.rev .rev-who span{color:var(--mist)}
+.rev .rev-who .av{background:var(--gold);color:var(--teal-ink)}
+.rev .rev-arrows button{border-color:rgba(239,238,232,.28);color:var(--porcelain)}
+.rev .rev-arrows button:hover{background:var(--gold);border-color:var(--gold);color:var(--teal-ink)}
+.rev-in{position:relative;padding-block:clamp(88px,10vw,140px);display:grid;gap:clamp(40px,5vw,64px)}
+.rev-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,80px);align-items:center}
+.rev-photos{position:relative;aspect-ratio:1;max-width:100%;width:min(100%,520px)}
+.rev-photos .big{position:absolute;right:0;top:0;width:76%;height:88%;border-radius:28px;overflow:hidden}
+.rev-photos .small{position:absolute;left:0;bottom:0;width:40%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;border:6px solid var(--porcelain-2)}
+.rev-photos img{width:100%;height:100%;object-fit:cover}
+.rev-photos .big img{object-position:28% 50%}
+.rev-score{position:absolute;right:18px;bottom:16%;background:var(--porcelain);border-radius:20px;padding:14px 18px;display:grid;gap:2px;box-shadow:0 20px 40px -22px rgba(5,31,30,.5)}
+.rev-score b{font-family:var(--f-display);font-weight:500;font-size:2.2rem;letter-spacing:-.04em;line-height:1;color:var(--teal)}
+.rev-score b small{font-size:.5em;color:var(--stone)}
+.stars{display:flex;gap:2px;color:var(--gold-deep)}
+.stars svg{width:15px;height:15px}
+.rev-score span{font-size:.78rem;color:var(--stone)}
+.rev-quote{display:grid;gap:26px;min-width:0}
+.rev-text{font-family:var(--f-display);font-weight:400;font-variation-settings:"wdth" 88,"opsz" 60;font-size:clamp(1.5rem,2.6vw,2.5rem);line-height:1.18;letter-spacing:-.025em;color:var(--ink);min-height:5.9em;text-wrap:pretty}
+.rev-text::before{content:"“";color:var(--gold)}
+.rev-text::after{content:"”";color:var(--gold)}
+.rev-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:20px;border-top:1px solid var(--line-light)}
+.rev-who{display:flex;align-items:center;gap:12px}
+.rev-who .av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:var(--gold);font-weight:600}
+.rev-who b{display:block;font-weight:600}
+.rev-who span{display:block;font-size:.82rem;color:var(--stone)}
+.rev-arrows{display:flex;gap:8px}
+.rev-arrows button{all:unset;cursor:pointer;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(11,35,33,.2);color:var(--ink);transition:background .25s,color .25s,border-color .25s}
+.rev-arrows button:hover{background:var(--teal);color:var(--porcelain);border-color:var(--teal)}
+.rev-arrows button:focus-visible{outline:2px solid var(--gold-deep);outline-offset:3px}
+.rev-arrows svg{width:18px;height:18px}
+
+/* ---------- plan + 24h (discount-plan style) ---------- */
+.plan{position:relative;z-index:3;background:var(--porcelain);color:var(--ink)}
+.plan-in{padding-block:clamp(88px,10vw,140px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:center}
+.plan-copy{display:grid;gap:22px;min-width:0}
+.plan-copy .eyebrow{color:var(--gold-deep)}
+.plan-copy p{color:var(--stone);max-width:44ch}
+.plan-list{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid var(--line-light)}
+.plan-list li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--line-light);align-items:start}
+.plan-list svg{width:22px;height:22px;color:var(--gold-deep);margin-top:2px}
+.plan-list b{display:block;font-weight:600}
+.plan-list span{color:var(--stone);font-size:.92rem}
+.plan-cards{display:grid;gap:14px}
+.card24{position:relative;overflow:hidden;border-radius:30px;padding:clamp(26px,3vw,40px);background:linear-gradient(140deg,#11605A 0%,var(--teal) 55%,var(--teal-ink) 100%);color:var(--porcelain);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:24px;align-items:center}
+.c24-copy{display:grid;gap:18px;justify-items:start}
+.card24 .label{color:var(--gold)}
+.card24 .big{display:flex;align-items:baseline;gap:.14em;font-family:var(--f-display);font-weight:450;font-variation-settings:"wdth" 80;font-size:clamp(5rem,8vw,7.4rem);line-height:.85;letter-spacing:-.05em;color:var(--porcelain)}
+.card24 .big small{font-size:.32em;color:var(--gold);letter-spacing:-.01em}
+.card24 .txt{color:rgba(239,238,232,.92);max-width:32ch;font-size:1.02rem}
+.dial{width:100%;max-width:220px;justify-self:center;overflow:visible}
+.dial .hand{transform-origin:100px 100px;animation:spin 12s linear infinite}
+.dial .hand.slow{animation-duration:144s}
+.card-uni{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:24px;border-radius:24px;padding:18px;background:#fff;border:1px solid var(--line-light)}
+.uni-logo{display:grid;place-items:center;padding:18px 22px;border-radius:18px;background:#F5F5F2}
+.uni-logo img{width:clamp(170px,16vw,230px);height:auto}
+.uni-copy{display:grid;gap:4px;min-width:0}
+.uni-copy b{font-family:var(--f-display);font-weight:500;font-size:1.3rem;letter-spacing:-.02em}
+.uni-copy p{font-size:.95rem;color:var(--stone)}
+.uni-copy a{margin-top:6px;color:var(--teal-2);font-weight:600;text-decoration:none;width:max-content}
+.uni-copy a:hover{text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- contact ---------- */
+.contact{position:relative;z-index:3;background:radial-gradient(90% 90% at 80% 0%,#11605A 0%,var(--teal) 50%,var(--teal-ink) 100%);color:var(--porcelain);overflow:hidden}
+.contact-in{position:relative;padding-block:clamp(96px,11vw,150px) 40px;display:grid;gap:clamp(48px,7vw,88px)}
+.contact-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:end}
+.contact h2{font-family:var(--f-display);font-weight:500;font-variation-settings:"wdth" 78,"opsz" 96;font-size:clamp(2.6rem,7vw,7rem);line-height:.94;letter-spacing:-.045em;text-wrap:balance}
+.contact h2 em.s{color:var(--gold);font-size:1.1em}
+.contact-top{align-items:center}
+.cta-tooth{position:relative;width:100%;aspect-ratio:1;max-width:220px;border-radius:22px;background:radial-gradient(circle at 50% 45%,rgba(210,176,100,.16),rgba(5,31,30,0) 65%)}
+.cta-tooth canvas{width:100%;height:100%;display:block}
+.cta-copy{display:grid;gap:20px;justify-items:start;min-width:0}
+.cta-copy .btn{white-space:nowrap}
+.contact-cta{grid-template-columns:minmax(150px,200px) minmax(0,1fr);align-items:center;cursor:default}
+.contact-cta{display:grid;gap:24px;padding:clamp(20px,2.4vw,30px);border-radius:28px;background:rgba(239,238,232,.05);border:1px solid rgba(239,238,232,.12);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:border-color .4s,transform .5s cubic-bezier(.2,.7,.2,1),background .4s}
+.contact-cta:hover{border-color:rgba(210,176,100,.5);background:rgba(239,238,232,.08);transform:translateY(-4px)}
+.contact-cta p{color:rgba(239,238,232,.86);max-width:36ch;font-size:1.05rem}
+.info{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line-dark)}
+.info > div{padding:22px 22px 22px 0;display:grid;gap:8px;align-content:start;min-width:0}
+.info > div + div{padding-left:22px;border-left:1px solid var(--line-dark)}
+.info .label{color:var(--gold)}
+.info a,.info p{font-size:1.02rem;text-decoration:none;overflow-wrap:anywhere}
+.info a:hover{color:var(--gold)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:16px 32px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--line-dark);color:var(--mist);font-size:.88rem}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .hdr-live{display:none}
+  .mission-foot{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .values-row{grid-column:1/-1;justify-content:flex-start;padding-left:0}
+}
+@media (max-width:980px){
+  .nav,.hdr-live{display:none}
+  .pill{margin-left:auto}
+  .hero-stage{left:50%;width:84vw;height:50vh;top:58%}
+  .hero-h{max-width:none;align-self:start;margin-top:4vh}
+  .hero-h{font-size:clamp(3rem,13vw,6rem)}
+  .asm-in{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto auto;grid-template-areas:"top" "stage" "side" "steps";padding-top:84px;gap:12px}
+  .asm-top{flex-direction:column;gap:10px}
+  .asm-h{text-align:left;font-size:clamp(1.7rem,6.5vw,2.6rem)}
+  .asm-side{display:none}
+  .asm-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 0}
+  .asm-steps li:nth-child(3){border-left:0}
+  .asm-ui{display:none}
+  .asm-lock{bottom:auto;top:40%}
+  .about-in{grid-template-columns:1fr}
+  .doc-card{max-width:440px}
+  .daily-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding-bottom:0}
+  .daily-grid figure:nth-child(even){transform:none}
+  .daily-grid figure:nth-child(even):hover{transform:translateY(-10px)}
+  .daily-grid figcaption span{max-height:4em;opacity:1}
+  .statement{padding-left:0}
+  .statement-photo{display:none}
+  .mission-foot{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(3){padding-left:0;border-left:0}
+  .tr-head{grid-template-columns:1fr}
+  .tr-head p{justify-self:start}
+  .tr-grid{grid-template-columns:1fr}
+  .tr-photo{min-height:280px;aspect-ratio:16/10}
+  .rev-grid{grid-template-columns:1fr}
+  .rev-photos{justify-self:center}
+  .rev-text{min-height:0}
+  .plan-in{grid-template-columns:1fr}
+  .contact-top{grid-template-columns:1fr}
+  .info{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .info > div:nth-child(3){padding-left:0;border-left:0}
+  .info > div:nth-child(n+3){border-top:1px solid var(--line-dark)}
+  .orb-ui{display:none}
+}
+@media (max-width:980px){
+  .tr-grid{grid-template-rows:auto}
+  .tr-card{overflow:visible}
+  .daily-head{grid-template-columns:1fr}
+  .daily-head p{justify-self:start}
+  .values-row{padding-left:0}
+  .stat-band{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(3)::before{display:none}
+  .card24{grid-template-columns:1fr}
+  .dial{max-width:140px;justify-self:start;order:-1}
+  .card-uni{grid-template-columns:1fr}
+  .uni-logo{justify-self:start}
+}
+@media (max-width:980px){
+  .why-in{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .orbit-wrap{aspect-ratio:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}
+  .orbit-ring,.orbit-spin{display:none}
+  .orbit-face{position:relative;inset:auto;grid-column:1/-1;width:min(240px,70vw);aspect-ratio:1;justify-self:center}
+  .reason{position:static;transform:none;width:auto}
+  .reason:last-child{grid-column:1/-1}
+}
+@media (max-width:560px){
+  .hero-meta{flex-direction:column;gap:6px}
+  .hero-foot{align-items:flex-start}
+  .daily-grid{grid-template-columns:1fr}
+  .signs ul{grid-template-columns:1fr}
+  .contact-cta{grid-template-columns:1fr}
+  .cta-tooth{max-width:180px}
+  .daily-grid figure{aspect-ratio:4/3}
+  .statement .ph{display:none}
+  .rev-foot{flex-wrap:wrap}
+  .info{grid-template-columns:1fr}
+  .info > div,.info > div + div{padding:18px 0;border-left:0}
+  .info > div + div{border-top:1px solid var(--line-dark)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .trust-track,.orbit-spin{animation:none}
+  .tr-photo img,.tr-fade,.statement .w{transition:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mark" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="18.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M13.4 9.6c2 0 3 .9 6.6.9s4.6-.9 6.6-.9c3 0 4.5 2.6 4.5 5.6 0 2.9-1.1 4.9-2 7.6-.9 2.8-1.2 6.4-3.2 6.4-2.3 0-2-5.8-5.9-5.8s-3.6 5.8-5.9 5.8c-2 0-2.3-3.6-3.2-6.4-.9-2.7-2-4.7-2-7.6 0-3 1.5-5.6 4.5-5.6Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M15.6 13.4c1.6.5 2.8.8 4.4.8s2.8-.3 4.4-.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="wa" viewBox="0 0 24 24"><path d="M4.5 19.5l1.1-3.6A8 8 0 1 1 8.4 18.6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8.6c.2-.4.5-.4.8-.4.3 0 .5.2.6.5l.5 1.2c.1.3 0 .5-.2.7l-.4.4c.5 1 1.3 1.8 2.3 2.3l.4-.4c.2-.2.5-.3.7-.2l1.2.5c.3.1.5.4.5.6 0 .4-.1.7-.4.9-.6.5-1.4.6-2.2.3-2-.8-3.6-2.4-4.4-4.4-.2-.7-.1-1.5.6-2z" fill="currentColor"/></symbol>
+    <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z" fill="currentColor"/></symbol>
+    <symbol id="shapes" viewBox="0 0 600 600"><g fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"><rect x="1" y="1" width="278" height="218" rx="60"/><rect x="300" y="1" width="299" height="218" rx="109"/><rect x="1" y="240" width="278" height="359" rx="60"/><path d="M599 240V599A359 359 0 0 1 300 240Z"/><circle cx="140" cy="110" r="38"/></g></symbol>
+  </defs>
+</svg>
+
+<header class="hdr" id="hdr">
+  <div class="hdr-in">
+    <a class="logo" href="#topo" aria-label="Mazon Odontologia, início">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <span class="logo-word"><b>Mazon</b><small>Odontologia</small></span>
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#sobre">Dr. Kleber</a>
+      <a href="#missao">Missão</a>
+      <a href="#tratamentos">Tratamentos</a>
+      <a href="#avaliacoes">Avaliações</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <span class="hdr-live"><i aria-hidden="true"></i>Urgências 24h</span>
+    <a class="pill" href="https://wa.me/5542988841876" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>WhatsApp</a>
+  </div>
+</header>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="orb-ui" id="orbUi" aria-hidden="true">
+  <i class="orb-line"></i><i class="orb-line"></i>
+  <i class="orb-dot"></i><i class="orb-dot"></i>
+  <span class="orb-label">Atendimento humanizado</span>
+  <span class="orb-label">Tecnologia a favor do cuidado</span>
+</div>
+
+<div class="asm-ui" id="asmUi" aria-hidden="true">
+  <i class="part-line"></i><i class="part-line"></i><i class="part-line"></i>
+  <i class="part-dot"></i><i class="part-dot"></i><i class="part-dot"></i>
+  <div class="part"><b>Coroa</b><span>Forma e cor naturais, feita sob medida.</span></div>
+  <div class="part"><b>Pilar</b><span>A conexão que dá estabilidade.</span></div>
+  <div class="part"><b>Base em titânio</b><span>Firmeza para mastigar com segurança.</span></div>
+</div>
+
+<main>
+  <section class="hero" id="topo">
+    <div class="wrap hero-in">
+      <div class="hero-meta label">
+        <span>Guarapuava, PR</span>
+        <span>Desde 2021</span>
+      </div>
+      <h1 class="hero-h"><span class="l1">Não é sobre dentes.</span><span class="l2">É sobre <em class="s">pessoas.</em></span></h1>
+      <div class="hero-stage" data-anchor="hero"></div>
+      <div class="hero-foot">
+        <div>
+          <p class="hero-lead">Odontologia humanizada em Guarapuava, com atendimento próximo, transparente e feito para a sua história.</p>
+          <a class="btn" href="https://wa.me/5542988841876?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener">Agendar pelo WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+        </div>
+        <a class="doc" href="#sobre">
+          <img src="assets/img/dr-avental.jpg" alt="Dr. Kleber Mazon Aguiar no consultório">
+          <span><b>Dr. Kleber Mazon Aguiar</b><span>Cirurgião-dentista · CRO/PR 32536</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="trust" aria-label="Informações de atendimento">
+    <div class="trust-track">
+      <div class="trust-set"><span>Atendimento noturno</span><span>Urgências 24 horas</span><span>Convênio Dental Uni</span><span>CRO/PR 32536</span><span>Desde 2021 em Guarapuava</span></div>
+      <div class="trust-set" aria-hidden="true"><span>Atendimento noturno</span><span>Urgências 24 horas</span><span>Convênio Dental Uni</span><span>CRO/PR 32536</span><span>Desde 2021 em Guarapuava</span></div>
+    </div>
+  </div>
+
+  <section class="asm" id="peca" aria-label="A peça que faltava">
+    <div class="asm-pin" id="asmPin">
+      <span class="ghost g1" aria-hidden="true">PRECISÃO</span>
+      <span class="ghost g2" aria-hidden="true">CUIDADO</span>
+      <div class="wrap asm-in">
+        <div class="asm-top">
+          <p class="eyebrow">A peça que faltava</p>
+          <h2 class="asm-h">Cada parte no lugar. <em class="s">Inclusive você.</em></h2>
+        </div>
+        <div class="asm-side">
+          <p class="asm-note">A vida tem outras prioridades, e o sorriso às vezes fica para depois. Aqui ninguém julga o tempo que passou.</p>
+          <p class="asm-note">Ainda dá tempo de trazê-lo de volta, com planejamento, explicação clara e uma peça feita para você.</p>
+        </div>
+        <div class="asm-stage" data-anchor="asm" data-fit="7"></div>
+        <ol class="asm-steps">
+          <li><b>01</b><span>Escaneamento digital</span></li>
+          <li><b>02</b><span>Planejamento explicado</span></li>
+          <li><b>03</b><span>Peça sob medida</span></li>
+          <li><b>04</b><span>Encaixe e acompanhamento</span></li>
+        </ol>
+      </div>
+      <p class="asm-lock">Encaixado. O que volta é você.</p>
+    </div>
+  </section>
+
+  <section class="about" id="sobre">
+    <svg class="deco" viewBox="0 0 600 600" style="right:-180px;bottom:-200px" aria-hidden="true"><use href="#shapes"/></svg>
+    <div class="wrap about-in">
+      <figure class="doc-card">
+        <img src="assets/img/kleber.jpg" alt="Dr. Kleber Mazon Aguiar sorrindo, de braços cruzados, com jaleco preto bordado">
+        <figcaption><b>Dr. Kleber Mazon Aguiar</b><span>Cirurgião-dentista · CRO/PR 32536</span></figcaption>
+      </figure>
+      <div class="about-copy">
+        <p class="eyebrow">Conheça o Dr. Kleber</p>
+        <h2>Quem cuida de você tem nome, rosto e <em class="s">compromisso.</em></h2>
+        <p>Desde 2021 com a missão de reabilitar sorrisos de forma humana, trabalhando com ética, empatia e transparência. Antes de qualquer procedimento, você entende o que está acontecendo e quais são os caminhos possíveis.</p>
+        <ul class="pts">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.8 3.6-6 7-6s6.2 2.2 7 6"/></svg></span><span><b>Atendimento próximo</b><span>Você sabe quem está cuidando do seu sorriso, da primeira conversa ao acompanhamento.</span></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8M12 16.5V20M7 12l3-3 2 2 4-4"/></svg></span><span><b>Planejamento digital</b><span>Escaneamento e avaliação por imagem para mostrar cada etapa antes de começar.</span></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></span><span><b>5,0 no Google</b><span>41 avaliações de pacientes que falam de atenção, calma e explicações claras.</span></span></li>
+        </ul>
+        <div class="about-cta">
+          <a class="btn" href="https://wa.me/5542988841876?text=Ol%C3%A1%2C%20Dr.%20Kleber!" target="_blank" rel="noopener">Falar com o Dr. Kleber <span class="arr" aria-hidden="true">→</span></a>
+          <a class="more" href="#avaliacoes">Ler avaliações →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="daily" aria-labelledby="dailyTitle">
+    <svg class="deco on-light" viewBox="0 0 600 600" style="left:-200px;top:-180px" aria-hidden="true"><use href="#shapes"/></svg>
+    <div class="wrap daily-in">
+      <div class="daily-head">
+        <h2 class="h2" id="dailyTitle">Um dia no <em class="s">consultório.</em></h2>
+        <p>Um ambiente acolhedor, tecnologia a favor da conversa e tempo para explicar cada passo.</p>
+      </div>
+      <div class="daily-grid">
+        <figure><span class="tag">Recepção</span><img src="assets/img/recepcao-logo.jpg" alt="Recepção com o logo da Mazon Odontologia na parede" loading="lazy"><figcaption><b>A recepção</b><span>Um espaço calmo para chegar sem pressa.</span></figcaption></figure>
+        <figure><span class="tag">Planejamento</span><img src="assets/img/planejamento.jpg" alt="Dr. Kleber trabalhando no computador do consultório" loading="lazy"><figcaption><b>Planejamento de cada caso</b><span>Cada tratamento pensado para a sua história.</span></figcaption></figure>
+        <figure><span class="tag">Conforto</span><img src="assets/img/espera.jpg" alt="Sala de espera com poltronas claras" loading="lazy"><figcaption><b>Sala de espera</b><span>Poltronas confortáveis para esperar sem pressa.</span></figcaption></figure>
+        <figure><span class="tag">Diagnóstico</span><img src="assets/img/avaliacao.jpg" alt="Dr. Kleber ao lado de uma radiografia panorâmica na tela" loading="lazy"><figcaption><b>Avaliação por imagem</b><span>Você vê o que o dentista vê, e entende por quê.</span></figcaption></figure>
+      </div>
+      <a class="btn-ig daily-more" href="https://www.instagram.com/mazon.odontologia/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>Acompanhe no Instagram @mazon.odontologia</a>
+    </div>
+  </section>
+
+  <section class="mission" id="missao">
+    <div class="wrap mission-in">
+      <p class="eyebrow mission-eyebrow">Nossa missão</p>
+      <p class="statement" id="statement">
+        <span class="statement-photo"><img src="assets/img/fachada-noite.jpg" alt="Fachada da clínica Mazon Odontologia à noite" loading="lazy"><span class="badge">Guarapuava</span></span>
+        Disseminar alegria <span class="ph round"><img src="assets/img/recepcao.jpg" alt="" loading="lazy"></span> e transformar vidas através do sorriso, com um atendimento <em class="s">personalizado, humanizado,</em> <span class="ph"><img src="assets/img/predio.jpg" alt="" loading="lazy"></span> <em class="s">íntegro e transparente.</em>
+      </p>
+      <div class="values-row">
+        <span class="label">Nossos valores</span>
+        <span class="pill-tag">Humanização e gentileza</span>
+        <span class="pill-tag">Transparência</span>
+        <span class="pill-tag">Confidencialidade e ética</span>
+        <span class="pill-tag">Compromisso com o paciente</span>
+        <span class="pill-tag">Pontualidade</span>
+        <span class="pill-tag">Responsabilidade social</span>
+      </div>
+      <div class="stat-band">
+        <div class="stat"><b>5,0<small>★</small></b><span>nota no Google</span></div>
+        <div class="stat"><b>41</b><span>avaliações de pacientes</span></div>
+        <div class="stat"><b>2021</b><span>cuidando de Guarapuava</span></div>
+        <div class="stat"><b>24<small>h</small></b><span>para urgências</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tr" id="tratamentos">
+    <svg class="deco on-light" viewBox="0 0 600 600" style="left:-180px;bottom:-220px" aria-hidden="true"><use href="#shapes"/></svg>
+    <div class="wrap tr-in">
+      <div class="tr-head">
+        <p class="eyebrow">Tratamentos</p>
+        <h2 class="h2">Sete formas de cuidar<br> do seu <em class="s">sorriso.</em></h2>
+        <p>Escolha um tratamento para entender como ele funciona e conversar direto com o Dr. Kleber.</p>
+      </div>
+      <div class="tr-grid">
+        <ul class="tr-list" id="trList" role="tablist" aria-label="Tratamentos"></ul>
+        <div class="tr-photo" id="trPhoto">
+          <span class="ico" id="trIco" aria-hidden="true"></span>
+        </div>
+        <div class="tr-card" id="trCard" role="tabpanel" aria-live="polite">
+          <div class="tr-fade" id="trFade">
+            <p class="say" id="trSay"></p>
+          </div>
+          <div class="tr-fade" id="trFade2" style="display:grid;gap:18px">
+            <div class="rule"></div>
+            <p id="trDesc"></p>
+            <div><span class="label" id="trTagsLabel"></span><ul class="tr-tags" id="trTags"></ul></div>
+          </div>
+          <a class="btn-dark" id="trLink" href="https://wa.me/5542988841876" target="_blank" rel="noopener">Conversar sobre este tratamento <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why" aria-labelledby="whyTitle">
+    <svg class="deco on-light" viewBox="0 0 600 600" style="right:-120px;top:-60px" aria-hidden="true"><use href="#shapes"/></svg>
+    <div class="wrap why-in">
+      <div class="why-copy">
+        <p class="eyebrow">Por que cuidar</p>
+        <h2 class="h2" id="whyTitle">O sorriso também<br> é <em class="s">saúde.</em></h2>
+        <p>A boca é a porta de entrada do organismo. Cuidar dela é cuidar da forma como você se sente, come, fala e se relaciona.</p>
+        <div class="signs">
+          <span class="label">Quando procurar o dentista</span>
+          <ul>
+            <li>Gengiva que sangra ao escovar</li>
+            <li>Dor ou sensibilidade ao frio</li>
+            <li>Dente quebrado ou lascado</li>
+            <li>Mau hálito que não passa</li>
+            <li>Mais de seis meses sem consulta</li>
+            <li>Dificuldade para mastigar</li>
+          </ul>
+        </div>
+        <a class="btn-dark" href="https://wa.me/5542988841876?text=Ol%C3%A1!%20Quero%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener">Agendar uma avaliação <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="orbit-wrap">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring r2"></div>
+        <div class="orbit-spin" aria-hidden="true"></div>
+        <div class="orbit-face"><img src="assets/img/cirurgia-dr.jpg" alt="Dr. Kleber em atendimento, de máscara e touca" loading="lazy"></div>
+        <div class="reason" style="left:16.4%;top:26.5%"><b>Autoestima</b><span>Sorrir, conversar e aparecer com mais segurança.</span></div>
+        <div class="reason" style="left:83.6%;top:26.5%"><b>Prevenção</b><span>Consultas periódicas evitam que pequenos problemas cresçam.</span></div>
+        <div class="reason" style="left:11.5%;top:66%"><b>Saúde do corpo</b><span>A saúde da boca está ligada ao organismo todo.</span></div>
+        <div class="reason" style="left:88.5%;top:66%"><b>Bom hálito</b><span>A limpeza profissional ajuda a manter o hálito em dia.</span></div>
+        <div class="reason" style="left:50%;top:93%"><b>Mastigação</b><span>Dentes cuidados para comer com conforto.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rev" id="avaliacoes" aria-labelledby="revTitle">
+    <svg class="deco" viewBox="0 0 600 600" style="right:-200px;top:-160px" aria-hidden="true"><use href="#shapes"/></svg>
+    <div class="wrap rev-in">
+      <div class="rev-grid">
+        <div class="rev-photos">
+          <div class="big"><img src="assets/img/consultorio-mesa.jpg" alt="Dr. Kleber Mazon Aguiar sentado à mesa do consultório" loading="lazy"></div>
+          <div class="small"><img src="assets/img/placa.jpg" alt="Placa da Mazon Odontologia na entrada do prédio" loading="lazy"></div>
+          <div class="rev-score">
+            <b>5,0<small>/5</small></b>
+            <span class="stars" aria-hidden="true"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></span>
+            <a href="https://share.google/lrzAnUy75jq2PUWwK" target="_blank" rel="noopener">41 avaliações no Google ↗</a>
+          </div>
+        </div>
+        <div class="rev-quote" aria-live="polite">
+          <p class="eyebrow">Avaliações no Google</p>
+          <h2 class="h2" id="revTitle" style="font-size:clamp(1.8rem,3vw,2.6rem);margin-top:-8px">O que dizem os <em class="s">pacientes.</em></h2>
+          <p class="rev-text tr-fade" id="revText"></p>
+          <div class="rev-foot">
+            <div class="rev-who tr-fade" id="revWho"><span class="av" id="revAv"></span><span><b id="revName"></b><span>Avaliação no Google · 5 estrelas</span></span></div>
+            <div class="rev-arrows">
+              <button type="button" id="revPrev" aria-label="Avaliação anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+              <button type="button" id="revNext" aria-label="Próxima avaliação"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plan" aria-labelledby="planTitle">
+    <div class="wrap plan-in">
+      <div class="plan-copy">
+        <p class="eyebrow">Convênio e horários</p>
+        <h2 class="h2" id="planTitle">Atendimento que cabe na sua <em class="s">rotina.</em></h2>
+        <p>Consultas também à noite e urgência a qualquer hora. Atendemos pelo Dental Uni, e quem tem outro plano pode falar com a gente para encontrarmos uma solução.</p>
+        <ul class="plan-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span><b>Atendimento noturno</b><span>Para quem trabalha ou cuida da família durante o dia.</span></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span><b>Urgências 24 horas</b><span>Dor, dente quebrado ou imprevisto, inclusive de madrugada.</span></span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>Tudo explicado antes</b><span>Você entende cada etapa antes de começar.</span></span></li>
+        </ul>
+      </div>
+      <div class="plan-cards">
+        <div class="card24">
+          <div class="c24-copy">
+            <span class="label">Urgências</span>
+            <p class="big">24<small>horas</small></p>
+            <p class="txt">Dor ou imprevisto? Chame no WhatsApp (42) 98884-1876 a qualquer hora do dia ou da noite.</p>
+            <a class="btn" href="https://wa.me/5542988841876?text=Ol%C3%A1!%20Preciso%20de%20atendimento%20de%20urg%C3%AAncia." target="_blank" rel="noopener">Chamar agora <span class="arr" aria-hidden="true">→</span></a>
+          </div>
+          <svg class="dial" viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(239,238,232,.12)"/>
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#D2B064" stroke-width="7" stroke-dasharray="2 18.94" transform="rotate(-90 100 100)" opacity=".75"/>
+            <circle cx="100" cy="100" r="56" fill="rgba(239,238,232,.05)" stroke="rgba(239,238,232,.14)"/>
+            <g class="hand"><path d="M100 100V36" stroke="#D2B064" stroke-width="3" stroke-linecap="round"/></g>
+            <g class="hand slow"><path d="M100 100V60" stroke="#EFEEE8" stroke-width="4" stroke-linecap="round"/></g>
+            <circle cx="100" cy="100" r="6" fill="#D2B064"/>
+          </svg>
+        </div>
+        <div class="card-uni">
+          <div class="uni-logo"><img src="assets/img/dental-uni.png" alt="Dental Uni Planos Odontológicos"></div>
+          <div class="uni-copy">
+            <b>Convênio Dental Uni</b>
+            <p>Tem outro plano? Fale com a gente para encontrarmos uma solução.</p>
+            <a href="https://wa.me/5542988841876?text=Ol%C3%A1!%20Gostaria%20de%20saber%20se%20voc%C3%AAs%20atendem%20meu%20plano." target="_blank" rel="noopener">Consultar meu plano →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contato">
+    <div class="wrap contact-in">
+      <div class="contact-top">
+        <h2>Quero cuidar do meu <em class="s">sorriso.</em></h2>
+        <div class="contact-cta">
+          <div class="cta-tooth" aria-hidden="true"><canvas id="ctaTooth"></canvas></div>
+          <div class="cta-copy">
+          <p>Conte um pouco da sua história pelo WhatsApp. A resposta vem de quem vai cuidar de você.</p>
+          <a class="btn" href="https://wa.me/5542988841876?text=Ol%C3%A1!%20Quero%20cuidar%20do%20meu%20sorriso." target="_blank" rel="noopener">Agendar pelo WhatsApp <span class="arr" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="info">
+        <div><span class="label">Endereço</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Manoel%20Ribas%2C%201082%2C%20Centro%2C%20Guarapuava%2C%20PR%2C%2085070-180" target="_blank" rel="noopener">Av. Manoel Ribas, 1082<br>Centro, Guarapuava, PR · 85070-180</a></div>
+        <div><span class="label">WhatsApp · Telefone</span><a href="https://wa.me/5542988841876" target="_blank" rel="noopener">(42) 98884-1876</a><p>(42) 3304-3745</p></div>
+        <div><span class="label">E-mail</span><p>mazonodonto@gmail.com</p></div>
+        <div><span class="label">Instagram</span><a href="https://www.instagram.com/mazon.odontologia/" target="_blank" rel="noopener">@mazon.odontologia</a></div>
+      </div>
+      <footer class="foot">
+        <a class="logo" href="#topo" aria-label="Voltar ao início"><svg aria-hidden="true"><use href="#mark"/></svg><span class="logo-word"><b>Mazon</b><small>Odontologia</small></span></a>
+        <span>Responsável técnico: Dr. Kleber Mazon Aguiar · CRO/PR 32536</span>
+        <span>Guarapuava, Paraná</span>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  const WA = 'https://wa.me/5542988841876';
+  // line icons in the style of the clinic's Instagram highlight covers
+  const TOOTH = '<path d="M13.4 9.6c2 0 3 .9 6.6.9s4.6-.9 6.6-.9c3 0 4.5 2.6 4.5 5.6 0 2.9-1.1 4.9-2 7.6-.9 2.8-1.2 6.4-3.2 6.4-2.3 0-2-5.8-5.9-5.8s-3.6 5.8-5.9 5.8c-2 0-2.3-3.6-3.2-6.4-.9-2.7-2-4.7-2-7.6 0-3 1.5-5.6 4.5-5.6Z"/>';
+  const ICON = {
+    clareamento: TOOTH + '<path d="M33 4.5v6M30 7.5h6M6 27v4M4 29h4"/>',
+    profilaxia: TOOTH + '<circle cx="33.5" cy="8" r="1.8"/><circle cx="6.5" cy="12" r="1.3"/><circle cx="35" cy="26" r="1.1"/><path d="M15.5 14c1.5.6 2.9.9 4.5.9s3-.3 4.5-.9"/>',
+    proteses: '<path d="M6 11c0 11 6.3 20 14 20s14-9 14-20"/><path d="M12 11c0 7 3.6 12.5 8 12.5s8-5.5 8-12.5"/><path d="M6 11h6M28 11h6M7.6 19.5l5-1.8M32.4 19.5l-5-1.8M12.5 27l3.4-4.5M27.5 27l-3.4-4.5M20 31v-7.5"/>',
+    cirurgias: '<path d="M8 32l4-8.5L29 6.5l4.5 4.5L16.5 28z"/><path d="M12 23.5l4.5 4.5M24 11.5l4.5 4.5"/>',
+    restauracoes: TOOTH + '<path d="M15.6 14.2c1.5.8 2.8 1.1 4.4 1.1s2.9-.3 4.4-1.1l-.7 3.4c-1.2.5-2.4.7-3.7.7s-2.5-.2-3.7-.7z" fill="currentColor" fill-opacity=".3"/>',
+    canais: TOOTH + '<path d="M17.4 14.5v9M22.6 14.5v9M17.4 14.5c1 .6 1.7.9 2.6.9s1.6-.3 2.6-.9"/>',
+    estetica: TOOTH + '<ellipse cx="20" cy="20" rx="18" ry="6"/>'
+  };
+  const TREAT = [
+    {id:'clareamento', name:'Clareamento dental', img:'assets/img/tr-clareamento.jpg', say:'Mais <em class="s">luminosidade</em> para os seus dentes, com orientação profissional.', tagsLabel:'Como pode ser feito', tags:['No consultório','Em casa, com moldeira','Combinando os dois'], desc:'O clareamento pode ser feito no consultório, em casa com o uso de uma moldeira, ou combinando os dois. É um procedimento pouco invasivo, acompanhado pelo dentista do começo ao fim.'},
+    {id:'profilaxia', name:'Profilaxia', img:'assets/img/tr-profilaxia.jpg', say:'A limpeza que mantém a <em class="s">saúde da boca</em> em dia.', tagsLabel:'O que é feito', tags:['Remoção de placa','Remoção de tártaro','Polimento'], desc:'A limpeza profissional remove a placa bacteriana, o tártaro e manchas superficiais com raspagem e polimento. Feita com regularidade, ajuda a prevenir inflamações e a manter o bom hálito.'},
+    {id:'proteses', name:'Próteses', img:'assets/img/escaneamento.jpg', say:'Peças <em class="s">sob medida</em> para devolver o que faltava.', tagsLabel:'Tipos', tags:['Totais','Parciais','Fixas ou removíveis'], desc:'As próteses substituem dentes ausentes e são feitas sob medida, a partir de moldes ou do escaneamento da sua boca, em parceria com o técnico em prótese dental.'},
+    {id:'cirurgias', name:'Cirurgias', img:'assets/img/procedimento.jpg', say:'Procedimentos <em class="s">planejados</em> e explicados do começo ao fim.', tagsLabel:'Inclui', tags:['Doenças e traumas','Enxerto gengival','Enxerto ósseo'], desc:'Procedimentos para tratar doenças ou traumas da boca, incluindo enxertos de gengiva ou de osso que preparam a reabilitação do sorriso. Tudo planejado com cuidado e explicado antes de começar.'},
+    {id:'restauracoes', name:'Restaurações', img:'assets/img/tr-restauracoes.jpg', say:'Forma e função do dente, com aparência <em class="s">natural.</em>', tagsLabel:'Materiais e técnicas', tags:['Resina composta','Porcelana','Peça sob medida'], desc:'A restauração reconstrói o dente danificado por cárie, trauma ou fratura, devolvendo a mastigação e a estética. Pequenos reparos são feitos na consulta; reconstruções maiores ganham uma peça sob medida.'},
+    {id:'canais', name:'Tratamento de canais', img:'assets/img/tr-canais.jpg', say:'Tratar por dentro para <em class="s">preservar</em> o que é seu.', tagsLabel:'Indicado em casos de', tags:['Dente quebrado','Cárie profunda','Trauma no dente'], desc:'O tratamento de canal remove a polpa danificada de dentro do dente, limpa o espaço e veda o canal. Hoje ele salva muitos dentes que, alguns anos atrás, seriam extraídos.'},
+    {id:'estetica', name:'Estética', img:'assets/img/tr-estetica.jpg', say:'Harmonia entre dentes, gengiva e <em class="s">rosto.</em>', tagsLabel:'O que pode ser tratado', tags:['Manchas','Assimetrias','Espaços entre os dentes'], desc:'A estética dental olha para o conjunto: dentes, gengiva e rosto. Diferenças de tamanho, manchas e assimetrias podem incomodar e abalar a autoestima. O objetivo é que você se sinta bem com o seu sorriso.'}
+  ];
+  // Google reviews, first name and initial only
+  const REVIEWS = [
+    {n:'Eliseu S.', t:'Quero deixar meu agradecimento à Mazon Odontologia pelo excelente atendimento, profissionalismo e, principalmente, pela humanidade com que conduzem cada procedimento.'},
+    {n:'Ana Paula C.', t:'Atendimento excepcional. Mesmo na madrugada fui atendida com muita paciência, atenção e empatia. Profissional excelente!'},
+    {n:'Paola B.', t:'Os procedimentos são bem explicados e toda a equipe é muito educada e atenciosa. Transmite bastante confiança no trabalho realizado. Certamente vou indicar para outros!'},
+    {n:'Julia C.', t:'Fui por acaso: sou de Curitiba, quebrei o dente e fui conhecer a clínica já que era 24h. Me surpreendi, agora meu dentista é o Dr. Kleber. Excelente clínica e profissionais!'},
+    {n:'Saulo J.', t:'O melhor da cidade, profissional muito dedicado, cuidadoso e humano.'},
+    {n:'Menahen M.', t:'Muito bem atendidos. Minha esposa e eu fizemos tratamento com eles. Agilidade no orçamento e no agendamento, profissionais muito comprometidos. Super recomendo.'},
+    {n:'Lucas P.', t:'Ótimo dentista, conta com uma equipe atenciosa e simpática, faz de tudo para resolver o problema e ainda explica passo a passo do procedimento. Adorei, recomendo!'},
+    {n:'Deivith W.', t:'Ótimo atendimento, doutor super atencioso, faz o trabalho bem feito e com todo cuidado.'}
+  ];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hdr = document.getElementById('hdr');
+  const $ = id => document.getElementById(id);
+
+  // sections rise in as they enter; siblings follow each other with a short stagger
+  if (!reduce && 'IntersectionObserver' in window){
+    const groups = ['.about-in > *', '.daily-head > *', '.daily-grid > figure', '.daily-more', '.mission-in > *', '.tr-head > *', '.tr-grid > *', '.why-copy > *', '.orbit-wrap', '.rev-photos', '.rev-quote > *', '.plan-copy > *', '.plan-cards > *', '.contact-top > *', '.info > div', '.asm-steps li'];
+    const els = [];
+    groups.forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      const i = [...el.parentElement.children].indexOf(el);
+      el.style.setProperty('--d', Math.min(i, 6) * .09 + 's');
+      el.classList.add('rv'); els.push(el);
+    }));
+    document.documentElement.classList.add('js-rv');
+    const rvObs = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      el.classList.add('in'); rvObs.unobserve(el);
+      // hand the element back to its own hover transitions once it has arrived
+      setTimeout(() => { el.classList.remove('rv', 'in'); el.style.removeProperty('--d'); }, 1700);
+    }), { rootMargin: '0px 0px -12% 0px' });
+    els.forEach(el => rvObs.observe(el));
+  }
+
+  // highlight the nav link of the section in view
+  const navLinks = [...document.querySelectorAll('.nav a')];
+  const navObs = new IntersectionObserver(entries => entries.forEach(en => {
+    if (en.isIntersecting) navLinks.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + en.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  navLinks.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s) navObs.observe(s); });
+  new IntersectionObserver(([en]) => { if (en.isIntersecting) navLinks.forEach(a => a.classList.remove('is-active')); }, { rootMargin: '-45% 0px -50% 0px' }).observe(document.getElementById('topo'));
+  const swap = (els, fn) => { if (reduce) { fn(); return; } els.forEach(e => e.classList.add('is-swapping')); setTimeout(() => { fn(); els.forEach(e => e.classList.remove('is-swapping')); }, 220); };
+
+  /* ---------- treatments: list, duotone photo and detail card ---------- */
+  const list = $('trList'), photo = $('trPhoto');
+  list.innerHTML = TREAT.map((t,i) =>
+    '<li><button class="tr-btn" role="tab" id="tab-' + t.id + '" aria-controls="trCard" aria-selected="' + (i === 0) + '" tabindex="' + (i === 0 ? 0 : -1) + '">' +
+      '<span class="nm">' + t.name + '</span><span class="pl" aria-hidden="true"></span>' +
+      '<span class="sub">' + t.tags.join(' · ') + '</span></button></li>').join('');
+  photo.insertAdjacentHTML('beforeend', TREAT.map((t,i) => '<img src="' + t.img + '" alt="" data-id="' + t.id + '"' + (i === 0 ? ' class="is-on"' : '') + ' loading="lazy">').join(''));
+  const tabs = [...list.querySelectorAll('.tr-btn')], pics = [...photo.querySelectorAll('img')];
+  let trCur = -1;
+  function selectTreat(i, focus){
+    if (i === trCur) return;
+    const t = TREAT[i], firstRun = trCur < 0;
+    trCur = i;
+    tabs.forEach((b,j) => { b.setAttribute('aria-selected', j === i); b.tabIndex = j === i ? 0 : -1; });
+    if (focus) tabs[i].focus();
+    pics.forEach(p => p.classList.toggle('is-on', p.dataset.id === t.id));
+    $('trIco').innerHTML = '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + ICON[t.id] + '</svg>';
+    const fill = () => {
+      $('trSay').innerHTML = t.say;
+      $('trDesc').textContent = t.desc;
+      $('trTagsLabel').textContent = t.tagsLabel;
+      $('trTags').innerHTML = t.tags.map(g => '<li>' + g + '</li>').join('');
+      $('trLink').href = WA + '?text=' + encodeURIComponent('Olá! Gostaria de conversar sobre ' + t.name.toLowerCase() + '.');
+    };
+    firstRun ? fill() : swap([$('trFade'), $('trFade2')], fill);
+  }
+  tabs.forEach((b,i) => {
+    b.addEventListener('click', () => selectTreat(i));
+    b.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); selectTreat((i+1) % tabs.length, true); }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); selectTreat((i-1+tabs.length) % tabs.length, true); }
+    });
+  });
+  selectTreat(0);
+
+  /* ---------- reviews carousel ---------- */
+  let rv = -1;
+  function showReview(i){
+    const firstRun = rv < 0;
+    rv = (i + REVIEWS.length) % REVIEWS.length;
+    const r = REVIEWS[rv];
+    const fill = () => {
+      $('revText').textContent = r.t;
+      $('revName').textContent = r.n;
+      $('revAv').textContent = r.n.charAt(0);
+    };
+    firstRun ? fill() : swap([$('revText'), $('revWho')], fill);
+  }
+  $('revPrev').addEventListener('click', () => showReview(rv - 1));
+  $('revNext').addEventListener('click', () => showReview(rv + 1));
+  showReview(0);
+
+  /* ---------- mission: the statement fills in word by word as it scrolls past ---------- */
+  const st = $('statement'), words = [];
+  (function wrap(node){
+    [...node.childNodes].forEach(c => {
+      if (c.nodeType === 3 && c.textContent.trim()){
+        const frag = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(part => {
+          if (!part.trim()){ frag.appendChild(document.createTextNode(part)); return; }
+          const s = document.createElement('span'); s.className = 'w'; s.textContent = part; words.push(s); frag.appendChild(s);
+        });
+        node.replaceChild(frag, c);
+      } else if (c.nodeType === 1 && c.tagName === 'EM') wrap(c);
+    });
+  })(st);
+  let stTick = false;
+  function fillWords(){
+    stTick = false;
+    const r = st.getBoundingClientRect(), vh = innerHeight;
+    const p = reduce ? 1 : Math.max(0, Math.min(1, (vh*.85 - r.top) / (r.height + vh*.3)));
+    const lit = Math.round(p * words.length * 1.1);
+    words.forEach((wd,i) => wd.classList.toggle('dim', i >= lit));
+  }
+  addEventListener('scroll', () => { if (!stTick){ stTick = true; requestAnimationFrame(fillWords); } }, {passive:true});
+  fillWords();
+
+  const asm = $('peca');
+
+  /* ---------- three.js ---------- */
+  if (!window.THREE) { document.documentElement.classList.add('no-gl'); return; }
+  const canvas = document.getElementById('scene');
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, powerPreference:'high-performance'}); }
+  catch(e){ document.documentElement.classList.add('no-gl'); return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+
+  const scene = new THREE.Scene();
+  const FOV = 30, CAMZ = 14;
+  const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 100);
+  camera.position.set(0, 0, CAMZ);
+  const VIS_H = 2 * CAMZ * Math.tan(THREE.MathUtils.degToRad(FOV/2));
+
+  // studio environment painted on a canvas: soft boxes, a teal floor and a warm gold bounce
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const ec = document.createElement('canvas'); ec.width = 1024; ec.height = 512;
+  const g2 = ec.getContext('2d');
+  const sky = g2.createLinearGradient(0, 0, 0, 512);
+  sky.addColorStop(0, '#f3f2ec'); sky.addColorStop(.38, '#86a6a0'); sky.addColorStop(.55, '#1d4a47'); sky.addColorStop(1, '#041514');
+  g2.fillStyle = sky; g2.fillRect(0, 0, 1024, 512);
+  function box(x,y,w,h,c,blur){ g2.save(); g2.filter = 'blur(' + blur + 'px)'; g2.fillStyle = c; g2.fillRect(x,y,w,h); g2.restore(); }
+  box(380, 30, 280, 70, '#ffffff', 8);
+  box(120, 120, 60, 220, '#ffffff', 10);
+  box(820, 140, 50, 180, '#fff6e6', 10);
+  box(500, 300, 240, 26, '#d2b064', 8);
+  const envTex = new THREE.CanvasTexture(ec);
+  envTex.mapping = THREE.EquirectangularReflectionMapping;
+  envTex.encoding = THREE.sRGBEncoding;
+  scene.environment = pmrem.fromEquirectangular(envTex).texture;
+
+  const key = new THREE.DirectionalLight(0xffffff, 0.9); key.position.set(3,5,6); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffeccc, 0.5); rim.position.set(-4,2,-5); scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xf3f2ec, 0x0a3836, 0.45));
+
+  /* crown: a deformed sphere shaped into a four-cusp molar crown */
+  function crownGeometry(){
+    const g = new THREE.SphereGeometry(1, 128, 96);
+    const p = g.attributes.position, v = new THREE.Vector3();
+    const sm = (a,b,x) => { const t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); };
+    for (let i=0;i<p.count;i++){
+      v.fromBufferAttribute(p,i);
+      const h = Math.hypot(v.x, v.z), th = Math.atan2(v.z, v.x);
+      let hy = Math.sign(v.y) * Math.pow(Math.abs(v.y), .55);
+      let hh = Math.pow(h, .42) * (1 + .045*Math.cos(4*th));
+      if (hy < 0) hh *= 1 - .36*Math.pow(-hy, 1.9);
+      let yy = hy;
+      if (hy > 0){
+        const rim = sm(.3, .95, hh);
+        const cusp = Math.pow(.5 + .5*Math.cos(4*th + Math.PI/4), 1.6);
+        yy += .22*cusp*rim*hy;
+        yy -= .28*Math.pow(1-hh, 2)*hy;
+      }
+      p.setXYZ(i, Math.cos(th)*hh, yy*.74, Math.sin(th)*hh*.9);
+    }
+    g.computeVertexNormals();
+    // weld normals along the seam and poles so the glaze has no visible line
+    const n = g.attributes.normal, map = new Map();
+    for (let i=0;i<p.count;i++){
+      const k = Math.round(p.getX(i)*1e4)+'_'+Math.round(p.getY(i)*1e4)+'_'+Math.round(p.getZ(i)*1e4);
+      (map.get(k) || map.set(k, []).get(k)).push(i);
+    }
+    map.forEach(ids => {
+      if (ids.length < 2) return;
+      let x=0,y=0,z=0; ids.forEach(i => { x+=n.getX(i); y+=n.getY(i); z+=n.getZ(i); });
+      const l = Math.hypot(x,y,z) || 1; ids.forEach(i => n.setXYZ(i, x/l, y/l, z/l));
+    });
+    return g;
+  }
+  // profiles are written top to bottom; the lathe wants them bottom to top so faces point outward
+  const lathe = (pts, seg) => new THREE.LatheGeometry(pts.slice().reverse().map(a => new THREE.Vector2(a[0], a[1])), seg || 96);
+
+  const U = { pulse:{value:0} };
+  const crownMat = new THREE.MeshPhysicalMaterial({ color:0xf4f1ea, roughness:.2, metalness:0, clearcoat:1, clearcoatRoughness:.06, envMapIntensity:1.15 });
+  crownMat.onBeforeCompile = sh => {
+    sh.uniforms.uPulse = U.pulse;
+    sh.fragmentShader = 'uniform float uPulse;\n' + sh.fragmentShader.replace('#include <tonemapping_fragment>',
+      'gl_FragColor.rgb += vec3(.95,.8,.45) * uPulse * .45;\n#include <tonemapping_fragment>');
+  };
+  const tiMat = new THREE.MeshStandardMaterial({ color:0xc4cbcc, metalness:1, roughness:.24, envMapIntensity:1.2 });
+  const tiMat2 = new THREE.MeshStandardMaterial({ color:0xb7bdbd, metalness:1, roughness:.32, envMapIntensity:1.1 });
+  const screwMat = new THREE.MeshStandardMaterial({ color:0xcfb47c, metalness:1, roughness:.3 });
+
+  const root = new THREE.Group(), spin = new THREE.Group(), inner = new THREE.Group();
+  root.add(spin); spin.add(inner); scene.add(root);
+
+  const crownGeo = crownGeometry();
+  const crown = new THREE.Mesh(crownGeo, crownMat); crown.position.y = 1.0; crown.renderOrder = 3;
+  const abutment = new THREE.Mesh(lathe([[0,.55],[.25,.55],[.3,.5],[.36,.05],[.41,-.2],[.5,-.29],[.5,-.36],[.41,-.46],[0,-.46]]), tiMat);
+  const screw = new THREE.Mesh(lathe([[0,.46],[.13,.46],[.15,.4],[.085,.34],[.075,-.9],[0,-.96]], 48), screwMat);
+  const bodyPts = [[0,-.46],[.4,-.46],[.42,-.53]];
+  for (let i=0;i<=260;i++){
+    const t = i/260, y = -.56 - t*1.86;
+    const core = .35 - .1*t, ph = (t*1.86)/.155, tri = 1 - Math.abs((ph%1)*2 - 1);
+    const fade = Math.min(1, t/.04) * (1 - .45*t);
+    bodyPts.push([core + .085*Math.pow(tri,1.4)*fade, y]);
+  }
+  bodyPts.push([.2,-2.47],[.08,-2.52],[0,-2.53]);
+  const body = new THREE.Mesh(lathe(bodyPts, 96), tiMat2);
+  [abutment, screw, body].forEach(m => m.renderOrder = 2);
+  inner.add(crown, abutment, screw, body);
+
+  const GOLD = new THREE.Color('#d8b462'), GOLD_D = new THREE.Color('#a07c32');
+  const add = THREE.AdditiveBlending;
+
+  // orbit
+  const orbit = new THREE.Group(); orbit.position.y = .25; inner.add(orbit);
+  const R = 2.15;
+  const ringMat = new THREE.MeshBasicMaterial({ color:GOLD.clone(), transparent:true });
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(R, .011, 8, 260), ringMat);
+  const glowMat = new THREE.MeshBasicMaterial({ color:GOLD.clone(), transparent:true, opacity:.12, blending:add, depthWrite:false });
+  const glow = new THREE.Mesh(new THREE.TorusGeometry(R, .06, 8, 200), glowMat);
+  const bead = new THREE.Mesh(new THREE.SphereGeometry(.065, 16, 12), ringMat);
+  orbit.add(ring, glow, bead);
+
+  // lock pulse ring at the crown seat
+  const lockMat = new THREE.MeshBasicMaterial({ color:GOLD, transparent:true, opacity:0, blending:add, depthWrite:false });
+  const lockRing = new THREE.Mesh(new THREE.TorusGeometry(.62, .02, 8, 120), lockMat);
+  lockRing.rotation.x = Math.PI/2; lockRing.position.y = .32; inner.add(lockRing);
+
+  /* ---------- CTA: a small tooth whose crown clicks into place on hover ---------- */
+  (function(){
+    const cv = $('ctaTooth'), card = cv && cv.closest('.contact-cta');
+    if (!cv) return;
+    let r2;
+    try { r2 = new THREE.WebGLRenderer({canvas:cv, antialias:true, alpha:true}); } catch(e){ return; }
+    r2.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    r2.outputEncoding = THREE.sRGBEncoding;
+    r2.toneMapping = THREE.ACESFilmicToneMapping;
+    const sc = new THREE.Scene();
+    sc.environment = new THREE.PMREMGenerator(r2).fromEquirectangular(envTex).texture;
+    const l1 = new THREE.DirectionalLight(0xffffff, .9); l1.position.set(3,5,6);
+    sc.add(l1, new THREE.HemisphereLight(0xf3f2ec, 0x0a3836, .45));
+    const cam = new THREE.PerspectiveCamera(30, 1, .1, 50); cam.position.set(0, 0, 11);
+    const sp = new THREE.Group(); sc.add(sp);
+    const mCrown = new THREE.MeshPhysicalMaterial({ color:0xf4f1ea, roughness:.2, clearcoat:1, clearcoatRoughness:.06, envMapIntensity:1.15 });
+    const mTi = new THREE.MeshStandardMaterial({ color:0xc4cbcc, metalness:1, roughness:.24, envMapIntensity:1.2 });
+    const c = new THREE.Mesh(crownGeo, mCrown);
+    sp.add(c, new THREE.Mesh(abutment.geometry, mTi), new THREE.Mesh(body.geometry, mTi));
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.9, .016, 8, 200), new THREE.MeshBasicMaterial({ color:0xd8b462 }));
+    ring.rotation.x = Math.PI/2 - .38; ring.position.y = .25; sp.add(ring);
+    const flashMat = new THREE.MeshBasicMaterial({ color:0xd8b462, transparent:true, opacity:0, blending:THREE.AdditiveBlending, depthWrite:false });
+    const flash = new THREE.Mesh(new THREE.TorusGeometry(.62, .03, 8, 100), flashMat);
+    flash.rotation.x = Math.PI/2; flash.position.y = .32; sp.add(flash);
+    sp.position.y = -.1;
+
+    let hover = false, gap = .9, px = 0, py = 0, rx = 0, ry = 0, fl = 0, wasLocked = false, visible = false, running = false, size = 0;
+    card.addEventListener('pointerenter', () => { hover = true; });
+    card.addEventListener('pointerleave', () => { hover = false; });
+    // the tooth turns toward the pointer wherever it is on the page
+    addEventListener('pointermove', e => { const rc = cv.getBoundingClientRect(); px = Math.max(-1, Math.min(1, (e.clientX - rc.left - rc.width/2) / (innerWidth*.35))); py = Math.max(-1, Math.min(1, (e.clientY - rc.top - rc.height/2) / (innerHeight*.5))); }, {passive:true});
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !running){ running = true; requestAnimationFrame(loop); } }).observe(cv);
+    function loop(now){
+      if (!visible){ running = false; return; }
+      const s = cv.clientWidth;
+      if (s && s !== size){ size = s; r2.setSize(s, s, false); }
+      const t = now/1000;
+      gap += ((hover ? 0 : .9 + (reduce ? 0 : Math.sin(t*1.4)*.08)) - gap) * .12;
+      const locked = gap < .03;
+      if (locked && !wasLocked) fl = 1;
+      wasLocked = locked;
+      fl *= .94; flashMat.opacity = fl; flash.scale.setScalar(1 + (1 - fl)*2.2);
+      c.position.y = 1 + gap;
+      rx += (py*.35 - rx) * .08;
+      ry += (px*1.1 - ry) * .06;
+      sp.rotation.set(.1 + rx, ry - .3, 0);
+      r2.render(sc, cam);
+      requestAnimationFrame(loop);
+    }
+  })();
+
+  /* ---------- labels pinned to the 3D model ---------- */
+  const orbUi = $('orbUi'), asmUi = $('asmUi');
+  const labels = [...orbUi.querySelectorAll('.orb-label')], olines = [...orbUi.querySelectorAll('.orb-line')], odots = [...orbUi.querySelectorAll('.orb-dot')];
+  const LABEL_ANG = [Math.PI*.93, Math.PI*.04];
+  // the left tag sits under the first headline line and the right tag above the second, so neither covers the words
+  const LABEL_OFF = [[-230,70],[48,-96]];
+  const parts = [...asmUi.querySelectorAll('.part')], plines = [...asmUi.querySelectorAll('.part-line')], pdots = [...asmUi.querySelectorAll('.part-dot')];
+  // a point on the right edge of each part, in that part's own space, where its label line starts
+  const PART_PT = [[crown, .92, 0], [abutment, .46, -.22], [body, .42, -1.15]];
+
+  /* ---------- scroll + pointer state ---------- */
+  const anchors = [...document.querySelectorAll('[data-anchor]')].map(el => ({ el, id: el.dataset.anchor, fit: +el.dataset.fit || 5.5 }));
+  const heroAnchor = anchors[0].el;
+  const ptr = { x:0, y:0 }, cur = { x:0, y:0 };
+  addEventListener('pointermove', e => { ptr.x = e.clientX/innerWidth*2 - 1; ptr.y = e.clientY/innerHeight*2 - 1; }, {passive:true});
+
+  const S = { x:0, y:0, s:1, gap:.45, ex:0, orb:1 };
+  let first = true, locked = false, pulse = 0, w = 0, h = 0;
+
+  function resize(){
+    w = innerWidth; h = innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+
+  const clamp = (x,a,b) => Math.max(a, Math.min(b, x));
+  const ease = t => t*t*(3-2*t);
+  const v3 = new THREE.Vector3();
+  const toScreen = v => { v.project(camera); return [(v.x*.5 + .5)*w, (-v.y*.5 + .5)*h]; };
+
+  function frame(now){
+    const t = now/1000;
+    hdr.classList.toggle('is-solid', scrollY > 40);
+
+    // the model glides to the anchor closest to the viewport centre
+    let best = null, bd = Infinity;
+    for (const a of anchors){
+      const r = a.el.getBoundingClientRect();
+      const d = Math.abs(r.top + r.height/2 - h/2);
+      if (d < bd){ bd = d; best = { id:a.id, fit:a.fit, r }; }
+    }
+    const r = best.r, visW = VIS_H * w/h;
+    const T = { x:((r.left + r.width/2)/w*2 - 1) * visW/2, y:-((r.top + r.height/2)/h*2 - 1) * VIS_H/2,
+                s:(r.height/h) * VIS_H / best.fit, gap:0, ex:0, orb:1 };
+
+    // the missing piece: parts separate, hold for the spec labels, then lock back together
+    const ar = asm.getBoundingClientRect();
+    const ap = clamp(-ar.top / (ar.height - h), 0, 1);
+    if (best.id === 'hero'){ T.gap = .45 + (reduce ? 0 : Math.sin(t*1.3)*.07); }
+    if (best.id === 'asm'){
+      T.orb = 0;
+      T.ex = ap < .22 ? ease(ap/.22) : ap < .7 ? 1 : ease(clamp(1 - (ap - .7)/.18, 0, 1));
+      const isLocked = ap > .9;
+      if (isLocked && !locked) pulse = 1;
+      locked = isLocked;
+    }
+    asm.classList.toggle('is-locked', best.id === 'asm' && ap > .9);
+
+    // smoothing gives the model its soft inertia
+    // inside the pinned section the model sticks tighter to its stage so it leaves together with the section
+    const k = first ? 1 : best.id === 'asm' ? (ap > .995 ? 1 : .2) : .085, kf = first ? 1 : .07;
+    for (const key in T){ S[key] += (T[key] - S[key]) * (key === 'x' || key === 'y' || key === 's' ? k : kf); }
+    first = false;
+    cur.x += (ptr.x - cur.x) * .05; cur.y += (ptr.y - cur.y) * .05;
+
+    root.visible = r.bottom > -h*.6 && r.top < h*1.6;
+    root.position.set(S.x + cur.x*.12*S.orb, S.y - cur.y*.08*S.orb, 0);
+    root.scale.setScalar(S.s);
+    inner.position.y = .37;
+    const idle = reduce ? 0 : Math.sin(t*.35)*.35, f = .35 + .65*S.orb;
+    spin.rotation.set(.08 + (.04 + cur.y*.28)*f, -.35 + (idle + cur.x*.7)*f, cur.x*-.06*f);
+
+    // parts
+    crown.position.y = 1.0 + S.gap + S.ex*1.55;
+    crown.rotation.z = S.ex*.06; crown.rotation.y = S.ex*.3;
+    abutment.position.y = S.ex*.6; abutment.rotation.y = -S.ex*.4;
+    screw.position.y = S.ex*1.05;
+    body.position.y = -S.ex*.6;
+    screw.visible = S.ex > .03;
+
+    // lock pulse
+    pulse *= .955;
+    U.pulse.value = pulse;
+    lockMat.opacity = pulse * .9;
+    lockRing.scale.setScalar(1 + (1 - pulse)*2.4);
+
+    // orbit belongs to the hero; it fades out for the spec-sheet view
+    orbit.visible = S.orb > .02;
+    orbit.rotation.x = Math.PI/2 - .38;
+    orbit.rotation.z = -.32 + (reduce ? 0 : Math.sin(t*.4)*.04);
+    ringMat.opacity = S.orb;
+    glowMat.opacity = (.12 + .25*pulse) * S.orb;
+    const ba = reduce ? 1 : t*.55;
+    bead.position.set(Math.cos(ba)*R, Math.sin(ba)*R, 0);
+
+    root.updateMatrixWorld();
+
+    // hero tags pinned to the orbit
+    const ho = best.id === 'hero' && w > 980 ? clamp(1 - Math.max(0, -heroAnchor.getBoundingClientRect().top) / (h*.3), 0, 1) * S.orb : 0;
+    orbUi.style.opacity = ho;
+    if (ho > 0){
+      for (let i=0;i<2;i++){
+        v3.set(Math.cos(LABEL_ANG[i])*R, Math.sin(LABEL_ANG[i])*R, 0);
+        const [px, py] = toScreen(orbit.localToWorld(v3));
+        const lw = labels[i].offsetWidth, lh = labels[i].offsetHeight;
+        const lx = clamp(px + LABEL_OFF[i][0], 16, w - lw - 16), ly = py + LABEL_OFF[i][1];
+        labels[i].style.transform = 'translate(' + lx + 'px,' + ly + 'px)';
+        const sx = i === 0 ? lx + lw*.7 : lx + lw*.3, sy = i === 0 ? ly : ly + lh;
+        const dx = px - sx, dy = py - sy;
+        olines[i].style.width = Math.hypot(dx, dy) + 'px';
+        olines[i].style.transform = 'translate(' + sx + 'px,' + sy + 'px) rotate(' + Math.atan2(dy, dx) + 'rad)';
+        odots[i].style.transform = 'translate(' + px + 'px,' + py + 'px)';
+      }
+    }
+
+    // spec labels for each part of the exploded view
+    const ao = best.id === 'asm' && w > 980 ? clamp((S.ex - .55)/.35, 0, 1) : 0;
+    asmUi.style.opacity = ao;
+    if (ao > 0){
+      const stageR = asm.querySelector('.asm-stage').getBoundingClientRect().right;
+      for (let i=0;i<3;i++){
+        const [m, lxp, lyp] = PART_PT[i];
+        const [px, py] = toScreen(m.localToWorld(v3.set(lxp, lyp, 0)));
+        const lx = Math.max(px + 60, stageR - 30);
+        parts[i].style.transform = 'translate(' + lx + 'px,' + (py - 9) + 'px)';
+        plines[i].style.width = Math.max(0, lx - 10 - px) + 'px';
+        plines[i].style.transform = 'translate(' + px + 'px,' + py + 'px)';
+        pdots[i].style.transform = 'translate(' + px + 'px,' + py + 'px)';
+      }
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
