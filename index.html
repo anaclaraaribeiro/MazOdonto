@@ -65,7 +65,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 #scene{position:fixed;inset:0;width:100vw;height:100vh;z-index:2;pointer-events:none;display:block}
 .no-gl #scene,.no-gl .orb-ui{display:none}
 .orb-ui{position:fixed;inset:0;z-index:3;pointer-events:none}
-.orb-label{position:absolute;left:0;top:0;font-size:.68rem;font-weight:600;letter-spacing:.14em;line-height:1;text-transform:uppercase;white-space:nowrap;color:var(--porcelain);padding:.8em .86em .8em 1em;border:1px solid var(--line-dark);border-radius:99px;background:rgba(5,31,30,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);will-change:transform}
+.orb-label{position:absolute;left:0;top:0;font-size:.68rem;font-weight:600;letter-spacing:.14em;line-height:1;text-transform:uppercase;white-space:nowrap;color:var(--porcelain);padding:.8em .86em .8em 1em;border:1px solid var(--line-dark);border-radius:99px;background:rgba(5,31,30,.82);will-change:transform}
 .orb-line{position:absolute;left:0;top:0;height:1px;background:linear-gradient(90deg,rgba(210,176,100,0),rgba(210,176,100,.85));transform-origin:0 0;will-change:transform}
 .orb-dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(210,176,100,.2);will-change:transform}
 
@@ -122,8 +122,8 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .hero-stage{position:absolute;left:50%;top:50%;width:min(36vw,46vh);height:min(60vh,640px);transform:translate(-50%,-48%);pointer-events:none}
 .hero-foot{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
 .hero-lead{max-width:36ch;font-size:clamp(1rem,1.25vw,1.15rem);opacity:.9;margin-bottom:22px}
-.doc{display:flex;align-items:center;gap:14px;padding:8px 22px 8px 8px;border-radius:99px;border:1px solid var(--line-dark);background:rgba(5,31,30,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);text-decoration:none}
-.doc img{width:58px;height:58px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:1.5px solid var(--gold)}
+.doc{display:flex;align-items:center;gap:14px;padding:8px 22px 8px 8px;border-radius:99px;border:1px solid var(--line-dark);background:rgba(5,31,30,.72);text-decoration:none}
+.doc img{width:58px;height:58px;border-radius:50%;object-fit:cover;object-position:50% 35%;border:1.5px solid var(--gold)}
 .doc b{display:block;font-weight:600;font-size:.98rem}
 .doc span{display:block;color:var(--mist);font-size:.8rem}
 
@@ -246,9 +246,9 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .statement-photo .badge{position:absolute;right:-1px;bottom:12px;background:var(--gold);color:var(--teal-ink);font-family:var(--f-body);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.45em .8em;border-radius:99px 0 0 99px}
 .mission-eyebrow{color:var(--gold-deep)}
 .mission-in{gap:clamp(36px,4.5vw,56px)}
-.values-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-left:clamp(0px,17vw,270px)}
-.values-row .label{color:var(--stone);margin-right:10px}
-.values-row .pill-tag{background:var(--porcelain-2);border-color:transparent;color:#2D4442;transition:background .3s,color .3s,transform .3s}
+.values-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0}
+.values-row .label{color:var(--stone);margin-right:10px;flex:0 0 auto}
+.values-row .pill-tag{flex:1 1 auto;justify-content:center;width:auto;background:var(--porcelain-2);border-color:transparent;color:#2D4442;transition:background .3s,color .3s,transform .3s}
 .values-row .pill-tag:hover{background:var(--teal);color:var(--porcelain);transform:translateY(-2px)}
 .stat-band{position:relative;overflow:hidden;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-radius:28px;background:linear-gradient(120deg,var(--teal) 0%,var(--teal-ink) 100%);color:var(--porcelain)}
 .stat{position:relative;display:grid;gap:8px;padding:clamp(22px,2.6vw,34px)}
@@ -340,11 +340,11 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .rev-photos .big{position:absolute;right:0;top:0;width:76%;height:88%;border-radius:28px;overflow:hidden}
 .rev-photos .small{position:absolute;left:0;bottom:0;width:40%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;border:6px solid var(--porcelain-2)}
 .rev-photos img{width:100%;height:100%;object-fit:cover}
-.rev-photos .big img{object-position:28% 50%}
+.rev-photos .big img{object-position:50% 22%}
 .rev-score{position:absolute;right:18px;bottom:16%;background:var(--porcelain);border-radius:20px;padding:14px 18px;display:grid;gap:2px;box-shadow:0 20px 40px -22px rgba(5,31,30,.5)}
 .rev-score b{font-family:var(--f-display);font-weight:500;font-size:2.2rem;letter-spacing:-.04em;line-height:1;color:var(--teal)}
 .rev-score b small{font-size:.5em;color:var(--stone)}
-.stars{display:flex;gap:2px;color:var(--gold-deep)}
+.stars{display:flex;gap:2px;color:var(--gold)}
 .stars svg{width:15px;height:15px}
 .rev-score span{font-size:.78rem;color:var(--stone)}
 .rev-quote{display:grid;gap:26px;min-width:0}
@@ -567,7 +567,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
           <a class="btn" href="https://wa.me/5542988841876?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20consulta." target="_blank" rel="noopener">Agendar pelo WhatsApp <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <a class="doc" href="#sobre">
-          <img src="assets/img/dr-avental.jpg" alt="Dr. Kleber Mazon Aguiar no consultório">
+          <img src="assets/img/dr-camisa.jpg" alt="Dr. Kleber Mazon Aguiar">
           <span><b>Dr. Kleber Mazon Aguiar</b><span>Cirurgião-dentista · CRO/PR 32536</span></span>
         </a>
       </div>
@@ -739,7 +739,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     <div class="wrap rev-in">
       <div class="rev-grid">
         <div class="rev-photos">
-          <div class="big"><img src="assets/img/consultorio-mesa.jpg" alt="Dr. Kleber Mazon Aguiar sentado à mesa do consultório" loading="lazy"></div>
+          <div class="big"><img src="assets/img/dr-avental.jpg" alt="Dr. Kleber Mazon Aguiar de avental e touca no consultório" loading="lazy"></div>
           <div class="small"><img src="assets/img/placa.jpg" alt="Placa da Mazon Odontologia na entrada do prédio" loading="lazy"></div>
           <div class="rev-score">
             <b>5,0<small>/5</small></b>
@@ -976,7 +976,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   addEventListener('scroll', () => { if (!stTick){ stTick = true; requestAnimationFrame(fillWords); } }, {passive:true});
   fillWords();
 
-  const asm = $('peca');
+  const asm = $('peca'), asmStage = asm.querySelector('.asm-stage');
 
   /* ---------- three.js ---------- */
   if (!window.THREE) { document.documentElement.classList.add('no-gl'); return; }
@@ -984,7 +984,8 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   let renderer;
   try { renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, powerPreference:'high-performance'}); }
   catch(e){ document.documentElement.classList.add('no-gl'); return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  // capped at 1.5x: a full-screen canvas at 2x costs far more than it shows
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.0;
@@ -1018,7 +1019,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 
   /* crown: a deformed sphere shaped into a four-cusp molar crown */
   function crownGeometry(){
-    const g = new THREE.SphereGeometry(1, 128, 96);
+    const g = new THREE.SphereGeometry(1, 96, 72);
     const p = g.attributes.position, v = new THREE.Vector3();
     const sm = (a,b,x) => { const t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); };
     for (let i=0;i<p.count;i++){
@@ -1051,7 +1052,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     return g;
   }
   // profiles are written top to bottom; the lathe wants them bottom to top so faces point outward
-  const lathe = (pts, seg) => new THREE.LatheGeometry(pts.slice().reverse().map(a => new THREE.Vector2(a[0], a[1])), seg || 96);
+  const lathe = (pts, seg) => new THREE.LatheGeometry(pts.slice().reverse().map(a => new THREE.Vector2(a[0], a[1])), seg || 64);
 
   const U = { pulse:{value:0} };
   const crownMat = new THREE.MeshPhysicalMaterial({ color:0xf4f1ea, roughness:.2, metalness:0, clearcoat:1, clearcoatRoughness:.06, envMapIntensity:1.15 });
@@ -1079,7 +1080,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     bodyPts.push([core + .085*Math.pow(tri,1.4)*fade, y]);
   }
   bodyPts.push([.2,-2.47],[.08,-2.52],[0,-2.53]);
-  const body = new THREE.Mesh(lathe(bodyPts, 96), tiMat2);
+  const body = new THREE.Mesh(lathe(bodyPts, 64), tiMat2);
   [abutment, screw, body].forEach(m => m.renderOrder = 2);
   inner.add(crown, abutment, screw, body);
 
@@ -1169,7 +1170,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   addEventListener('pointermove', e => { ptr.x = e.clientX/innerWidth*2 - 1; ptr.y = e.clientY/innerHeight*2 - 1; }, {passive:true});
 
   const S = { x:0, y:0, s:1, gap:.45, ex:0, orb:1 };
-  let first = true, locked = false, pulse = 0, w = 0, h = 0;
+  let first = true, locked = false, pulse = 0, w = 0, h = 0, wasVisible = true;
 
   function resize(){
     w = innerWidth; h = innerHeight;
@@ -1272,7 +1273,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     const ao = best.id === 'asm' && w > 980 ? clamp((S.ex - .55)/.35, 0, 1) : 0;
     asmUi.style.opacity = ao;
     if (ao > 0){
-      const stageR = asm.querySelector('.asm-stage').getBoundingClientRect().right;
+      const stageR = asmStage.getBoundingClientRect().right;
       for (let i=0;i<3;i++){
         const [m, lxp, lyp] = PART_PT[i];
         const [px, py] = toScreen(m.localToWorld(v3.set(lxp, lyp, 0)));
@@ -1284,7 +1285,9 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
       }
     }
 
-    renderer.render(scene, camera);
+    // nothing to draw once the model has left the screen; one last frame clears it
+    if (root.visible || wasVisible) renderer.render(scene, camera);
+    wasVisible = root.visible;
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
