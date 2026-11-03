@@ -150,7 +150,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .asm-note{display:grid;gap:12px;font-size:.95rem;color:var(--stone);line-height:1.55}
 .asm-note::before{content:"";width:36px;height:1.5px;background:var(--gold-deep)}
 .asm-note:nth-child(2){margin-left:clamp(0px,6vw,90px)}
-.asm-stage{grid-area:stage;min-height:0;height:100%}
+.asm-stage{grid-area:stage;min-height:0;height:100%;position:relative}
 .asm-steps{grid-area:steps;list-style:none;margin:0;padding:18px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line-light)}
 .asm-steps li{display:grid;gap:2px;padding:0 20px}
 .asm-steps li + li{border-left:1px solid var(--line-light)}
@@ -163,8 +163,8 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .part span{font-size:.82rem;color:var(--stone);padding-left:16px}
 .part-line{position:absolute;left:0;top:0;height:1px;background:rgba(11,35,33,.35);transform-origin:0 0;will-change:transform}
 .part-dot{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--ink);will-change:transform}
-.asm-lock{position:absolute;right:var(--gut-r);top:50%;transform:translateY(-50%);z-index:3;display:flex;gap:10px;align-items:center;padding:.6em 1.1em;border-radius:99px;background:var(--teal);color:var(--porcelain);font-size:.85rem;font-weight:600;opacity:0;transition:opacity .5s}
-.asm.is-locked .asm-lock{opacity:1}
+.asm-lock{position:absolute;left:50%;bottom:-6px;transform:translate(-50%,8px);z-index:3;display:flex;gap:10px;align-items:center;white-space:nowrap;padding:.6em 1.1em;border-radius:99px;background:var(--teal);color:var(--porcelain);font-size:.85rem;font-weight:600;opacity:0;transition:opacity .5s,transform .5s cubic-bezier(.2,.7,.2,1)}
+.asm.is-locked .asm-lock{opacity:1;transform:translate(-50%,0)}
 .asm-lock::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold)}
 
 /* ---------- Dr. Kleber: one doctor, one continuous relationship ---------- */
@@ -434,7 +434,6 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   .asm-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 0}
   .asm-steps li:nth-child(3){border-left:0}
   .asm-ui{display:none}
-  .asm-lock{bottom:auto;top:40%}
   .about-in{grid-template-columns:1fr}
   .doc-card{max-width:440px}
   .daily-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding-bottom:0}
@@ -500,6 +499,127 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   html{scroll-behavior:auto}
   .trust-track,.orbit-spin{animation:none}
   .tr-photo img,.tr-fade,.statement .w{transition:none}
+}
+/* ---------- phones: a layout of its own, not a squeezed desktop ---------- */
+@media (max-width:760px){
+  body{font-size:16px}
+  .h2{font-size:clamp(2rem,9vw,2.6rem)}
+
+  /* hero: headline, then the tooth in its own band, then the call to action */
+  .hero-in{grid-template-rows:auto auto minmax(280px,1fr) auto;padding-top:96px;padding-bottom:28px;gap:10px}
+  .hero-meta{flex-direction:row;font-size:.66rem}
+  .hero-h{grid-row:2;align-self:start;margin-top:10px;font-size:clamp(2.5rem,12.4vw,3.5rem);gap:.06em}
+  .hero-stage{grid-row:3;position:relative;left:auto;top:auto;transform:none;width:100%;height:auto;min-height:280px}
+  .hero-foot{grid-row:4;display:grid;gap:0}
+  .hero-lead{margin-bottom:16px}
+  .hero-foot .btn{width:100%;justify-content:space-between}
+  .doc{display:none}
+
+  /* the missing piece */
+  .asm{height:260vh}
+  .asm-in{grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"top" "stage" "steps";padding-top:88px;padding-bottom:18px;gap:10px}
+  .asm-top{flex-direction:column;gap:8px}
+  .asm-top .eyebrow{margin:0}
+  .asm-h{text-align:left;font-size:clamp(1.7rem,7.4vw,2.2rem)}
+  .ghost{font-size:24vw}
+  .ghost.g1{top:24%}
+  .ghost.g2{bottom:20%}
+  .asm-steps{grid-template-columns:repeat(4,minmax(0,1fr));padding-top:12px;gap:0}
+  .asm-steps li{padding:0 6px;gap:2px}
+  .asm-steps li:nth-child(3){border-left:1px solid var(--line-light)}
+  .asm-steps li:first-child{padding-left:0}
+  .asm-steps b{font-size:1rem}
+  .asm-steps span{font-size:.68rem;line-height:1.25}
+  .asm-lock{font-size:.76rem;bottom:-2px}
+
+  /* doctor */
+  .about-in{padding-block:72px;gap:32px}
+  .doc-card{aspect-ratio:4/5;max-width:100%}
+  .about-copy{gap:20px}
+  .about-copy h2{font-size:clamp(2.1rem,9.4vw,2.7rem)}
+  .pts li{grid-template-columns:40px minmax(0,1fr);gap:14px;padding:16px 0}
+  .pts .ic{width:40px;height:40px}
+  .pts b{font-size:1.04rem}
+  .pts span{font-size:.95rem}
+  .about-cta{gap:16px}
+  .about-cta .btn{width:100%;justify-content:space-between}
+
+  /* a day at the clinic: a swipeable strip */
+  .daily-in{padding-block:72px;gap:24px}
+  .daily-head{gap:10px}
+  .daily-grid{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1 * var(--gut));padding:0 var(--gut) 6px;scrollbar-width:none}
+  .daily-grid::-webkit-scrollbar{display:none}
+  .daily-grid figure,.daily-grid figure:nth-child(even),.daily-grid figure:nth-child(even):hover,.daily-grid figure:nth-child(odd):hover{flex:0 0 78%;aspect-ratio:3/4;transform:none;scroll-snap-align:start;opacity:1}
+  .daily-grid figure .tag{opacity:1;transform:none}
+  .daily-grid figcaption span{max-height:4em;opacity:1}
+  .daily-more{width:100%;justify-content:center}
+
+  /* mission */
+  .mission-in{padding-block:72px;gap:28px}
+  .statement{font-size:clamp(1.75rem,8vw,2.2rem);line-height:1.12}
+  .values-row .label{width:100%;margin:0 0 4px}
+  .values-row .pill-tag{font-size:.78rem}
+  .stat-band{grid-template-columns:repeat(2,minmax(0,1fr));border-radius:22px}
+  .stat{padding:20px}
+  .stat b{font-size:2.3rem}
+  .stat + .stat::before{display:none}
+  .stat:nth-child(2n){border-left:1px solid rgba(210,176,100,.22)}
+  .stat:nth-child(n+3){border-top:1px solid rgba(210,176,100,.22)}
+
+  /* treatments: chips, then photo, then the card */
+  .tr-in{padding-block:72px;gap:24px}
+  .tr-head{gap:12px}
+  .tr-grid{grid-template-columns:1fr;grid-template-rows:auto;gap:14px}
+  .tr-list{display:flex;gap:8px;overflow-x:auto;margin-inline:calc(-1 * var(--gut));padding:2px var(--gut) 6px;scrollbar-width:none}
+  .tr-list::-webkit-scrollbar{display:none}
+  .tr-list li{border:0;flex:0 0 auto}
+  .tr-btn{display:inline-flex;padding:.65em 1.05em;border-radius:99px;border:1px solid var(--line-light);background:var(--porcelain)}
+  .tr-btn .nm{font-family:var(--f-body);font-size:.9rem;font-weight:500;letter-spacing:0;color:var(--stone)}
+  .tr-btn .pl,.tr-btn .sub{display:none}
+  .tr-btn[aria-selected="true"]{background:var(--teal);border-color:var(--teal)}
+  .tr-btn[aria-selected="true"] .nm{color:var(--porcelain)}
+  .tr-photo{min-height:0;aspect-ratio:auto;height:220px;width:100%;border-radius:22px}
+  .tr-card{overflow:visible;padding:22px;border-radius:22px;gap:18px}
+  .tr-card .btn-dark{width:100%;justify-content:center}
+
+  /* why */
+  .why-in{padding-block:72px;gap:28px}
+  .why-copy .h2{white-space:normal}
+  .why-copy .btn-dark{width:100%;justify-content:center}
+  .signs{padding:18px}
+  .orbit-wrap{gap:12px}
+  .orbit-face{width:min(200px,60vw)}
+  .reason{padding:12px 10px}
+  .reason span{font-size:.78rem}
+
+  /* reviews */
+  .rev-in{padding-block:72px;gap:28px}
+  .rev-photos{width:100%}
+  .rev-score{right:10px;bottom:12%;padding:10px 14px}
+  .rev-score b{font-size:1.8rem}
+  .rev-text{font-size:clamp(1.25rem,5.6vw,1.5rem)}
+
+  /* plan */
+  .plan-in{padding-block:72px;gap:28px}
+  .card24{grid-template-columns:1fr;padding:24px;min-height:0}
+  .dial{position:absolute;right:16px;top:16px;width:84px;max-width:84px;order:0}
+  .card24 .big{font-size:clamp(3.8rem,18vw,4.8rem)}
+  .card24 .btn{width:100%;justify-content:space-between}
+  .card-uni{grid-template-columns:1fr;padding:14px;gap:14px}
+  .uni-logo{justify-self:stretch}
+  .uni-logo img{width:min(220px,100%)}
+
+  /* contact */
+  .contact-in{padding-block:72px 32px;gap:36px}
+  .contact h2{font-size:clamp(2.4rem,11vw,3.2rem)}
+  .contact-cta{grid-template-columns:1fr;justify-items:center;text-align:center;padding:20px}
+  .cta-tooth{max-width:170px}
+  .cta-copy{justify-items:center}
+  .cta-copy .btn{width:100%;justify-content:space-between}
+  .info{grid-template-columns:1fr}
+  .info > div,.info > div + div{padding:16px 0;border-left:0}
+  .info > div + div{border-top:1px solid var(--line-dark)}
+  .foot{flex-direction:column;align-items:flex-start;gap:10px}
 }
 </style>
 </head>
@@ -594,7 +714,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
           <p class="asm-note">A vida tem outras prioridades, e o sorriso às vezes fica para depois. Aqui ninguém julga o tempo que passou.</p>
           <p class="asm-note">Ainda dá tempo de trazê-lo de volta, com planejamento, explicação clara e uma peça feita para você.</p>
         </div>
-        <div class="asm-stage" data-anchor="asm" data-fit="7"></div>
+        <div class="asm-stage" data-anchor="asm" data-fit="7"><p class="asm-lock">Encaixado. O que volta é você.</p></div>
         <ol class="asm-steps">
           <li><b>01</b><span>Escaneamento digital</span></li>
           <li><b>02</b><span>Planejamento explicado</span></li>
@@ -602,7 +722,6 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
           <li><b>04</b><span>Encaixe e acompanhamento</span></li>
         </ol>
       </div>
-      <p class="asm-lock">Encaixado. O que volta é você.</p>
     </div>
   </section>
 
@@ -1108,7 +1227,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     if (!cv) return;
     let r2;
     try { r2 = new THREE.WebGLRenderer({canvas:cv, antialias:true, alpha:true}); } catch(e){ return; }
-    r2.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    r2.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
     r2.outputEncoding = THREE.sRGBEncoding;
     r2.toneMapping = THREE.ACESFilmicToneMapping;
     const sc = new THREE.Scene();
@@ -1197,7 +1316,8 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     }
     const r = best.r, visW = VIS_H * w/h;
     const T = { x:((r.left + r.width/2)/w*2 - 1) * visW/2, y:-((r.top + r.height/2)/h*2 - 1) * VIS_H/2,
-                s:(r.height/h) * VIS_H / best.fit, gap:0, ex:0, orb:1 };
+                // on narrow screens the exploded view needs more headroom than the stage gives it
+                s:(r.height/h) * VIS_H / (best.fit * (best.id === 'asm' && w < 760 ? 1.35 : 1)), gap:0, ex:0, orb:1 };
 
     // the missing piece: parts separate, hold for the spec labels, then lock back together
     const ar = asm.getBoundingClientRect();
