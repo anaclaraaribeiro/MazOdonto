@@ -1048,7 +1048,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 
   // sections rise in as they enter; siblings follow each other with a short stagger
   if (!reduce && 'IntersectionObserver' in window){
-    const groups = ['.about-in > *', '.daily-head > *', '.daily-grid > figure', '.daily-more', '.mission-in > *', '.tr-head > *', '.tr-grid > *', '.why-copy > *', '.orbit-wrap', '.rev-photos', '.rev-quote > *', '.plan-copy > *', '.plan-cards > *', '.contact-top > *', '.info > div', '.asm-steps li'];
+    const groups = ['.about-in > *', '.daily-head > *', '.daily-grid > figure', '.daily-more', '.mission-in > *', '.tr-head > *', '.tr-grid > *', '.why-copy > *', '.orbit-wrap', '.rev-photos', '.rev-quote > *', '.plan-copy > *', '.plan-cards > *', '.contact-top > *', '.info > div'];
     const els = [];
     groups.forEach(sel => document.querySelectorAll(sel).forEach(el => {
       const i = [...el.parentElement.children].indexOf(el);
