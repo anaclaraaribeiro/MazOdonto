@@ -57,7 +57,7 @@ document.documentElement.classList.add('is-loading');
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--teal);color:var(--porcelain);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--teal);color:var(--porcelain);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden;overflow-x:clip;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--teal-ink)}
 a{color:inherit}
 img{max-width:100%;display:block}
@@ -381,11 +381,11 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .rev-photos .small{position:absolute;left:0;bottom:0;width:40%;aspect-ratio:3/4;border-radius:22px;overflow:hidden;border:6px solid var(--porcelain-2)}
 .rev-photos img{width:100%;height:100%;object-fit:cover}
 .rev-photos .big img{object-position:50% 22%}
-.rev-score{position:absolute;right:18px;bottom:16%;background:var(--porcelain);border-radius:20px;padding:14px 18px;display:grid;gap:2px;box-shadow:0 20px 40px -22px rgba(5,31,30,.5)}
+.rev-score{position:absolute;right:16px;bottom:calc(12% + 16px);background:var(--porcelain);border-radius:20px;padding:14px 18px;display:grid;gap:2px;box-shadow:0 20px 40px -22px rgba(5,31,30,.5)}
 .rev-score b{font-family:var(--f-display);font-weight:500;font-size:2.2rem;letter-spacing:-.04em;line-height:1;color:var(--teal)}
 .rev-score b small{font-size:.5em;color:var(--stone)}
 .stars{display:flex;gap:2px;color:var(--gold)}
-.stars svg{width:15px;height:15px}
+.stars svg{width:15px;height:15px;fill:var(--gold)}
 .rev-score span{font-size:.78rem;color:var(--stone)}
 .rev-quote{display:grid;gap:26px;min-width:0}
 .rev-text{font-family:var(--f-display);font-weight:400;font-stretch:88%;font-variation-settings:"wdth" 88,"opsz" 60;font-size:clamp(1.5rem,2.6vw,2.5rem);line-height:1.18;letter-spacing:-.025em;color:var(--ink);min-height:5.9em;text-wrap:pretty}
@@ -483,7 +483,6 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   .statement{padding-left:0}
   .statement-photo{display:none}
   .mission-foot{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .stat:nth-child(3){padding-left:0;border-left:0}
   .tr-head{grid-template-columns:1fr}
   .tr-head p{justify-self:start}
   .tr-grid{grid-template-columns:1fr}
@@ -661,6 +660,47 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   .info > div + div{border-top:1px solid var(--line-dark)}
   .foot{flex-direction:column;align-items:flex-start;gap:10px}
 }
+/* ---------- phones, second pass (from testing on an iPhone) ---------- */
+@media (max-width:760px){
+  /* the missing piece: tighter, tooth larger, ghost words framing it */
+  .asm-in{gap:4px;padding-top:84px;padding-bottom:16px}
+  .ghost.g1{top:21%}
+  .ghost.g2{bottom:21%}
+
+  /* doctor: the reviews link becomes a quiet outline button under the main one */
+  .about-cta{flex-direction:column;align-items:stretch;gap:10px}
+  .about-cta a.more{text-align:center;padding:.95em 1.4em;border:1px solid rgba(239,238,232,.28);border-radius:99px}
+
+  /* a day at the clinic: first card lines up with the text, no vertical scroll inside */
+  .daily-grid{overflow-y:hidden;scroll-padding-inline:var(--gut);padding-bottom:12px;align-items:flex-start}
+  .daily-grid figure,.daily-grid figure:nth-child(even),.daily-grid figure:nth-child(even):hover,.daily-grid figure:nth-child(odd):hover{flex:0 0 72%;aspect-ratio:4/5;box-shadow:none}
+  .btn-ig .at{display:none}
+
+  /* mission: values as natural-width chips, stats with even padding */
+  .values-row{gap:6px}
+  .values-row .pill-tag{flex:0 0 auto;font-size:.76rem;padding:.42em .85em}
+  .stat-band .stat{padding:20px 18px}
+
+  /* treatments: every option visible, wrapping instead of hiding off-screen */
+  .tr-list{flex-wrap:wrap;overflow:visible;margin-inline:0;padding:0}
+
+  /* why: the same orbit as on desktop, with the reasons as pills around the photo */
+  .orbit-wrap{display:block;aspect-ratio:1;width:100%;margin-top:8px}
+  .orbit-ring,.orbit-spin{display:block}
+  .orbit-face{position:absolute;inset:27%;width:auto;grid-column:auto}
+  .reason,.reason:last-child{position:absolute;transform:translate(-50%,-50%);width:auto;padding:0;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;grid-column:auto}
+  .reason span{display:none}
+  .reason b{font-size:.6rem;padding:.7em .8em .7em .9em;white-space:nowrap;gap:6px}
+  .orbit-wrap .reason:nth-child(5){left:24%!important;top:13%!important}
+  .orbit-wrap .reason:nth-child(6){left:76%!important;top:13%!important}
+  .orbit-wrap .reason:nth-child(7){left:25%!important;top:85%!important}
+  .orbit-wrap .reason:nth-child(8){left:76%!important;top:85%!important}
+  .orbit-wrap .reason:nth-child(9){left:50%!important;top:99%!important}
+  .why-in{padding-bottom:88px}
+
+  /* reviews: rating card sits neatly inside the photo corner */
+  .rev-score{right:12px;bottom:calc(12% + 12px)}
+}
 </style>
 </head>
 <body>
@@ -690,7 +730,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
       <path d="M15.6 13.4c1.6.5 2.8.8 4.4.8s2.8-.3 4.4-.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
     </symbol>
     <symbol id="wa" viewBox="0 0 24 24"><path d="M4.5 19.5l1.1-3.6A8 8 0 1 1 8.4 18.6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8.6c.2-.4.5-.4.8-.4.3 0 .5.2.6.5l.5 1.2c.1.3 0 .5-.2.7l-.4.4c.5 1 1.3 1.8 2.3 2.3l.4-.4c.2-.2.5-.3.7-.2l1.2.5c.3.1.5.4.5.6 0 .4-.1.7-.4.9-.6.5-1.4.6-2.2.3-2-.8-3.6-2.4-4.4-4.4-.2-.7-.1-1.5.6-2z" fill="currentColor"/></symbol>
-    <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z" fill="currentColor"/></symbol>
+    <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></symbol>
     <symbol id="shapes" viewBox="0 0 600 600"><g fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"><rect x="1" y="1" width="278" height="218" rx="60"/><rect x="300" y="1" width="299" height="218" rx="109"/><rect x="1" y="240" width="278" height="359" rx="60"/><path d="M599 240V599A359 359 0 0 1 300 240Z"/><circle cx="140" cy="110" r="38"/></g></symbol>
   </defs>
 </svg>
@@ -819,7 +859,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
         <figure><span class="tag">Conforto</span><img src="assets/img/espera.jpg" alt="Sala de espera com poltronas claras" loading="lazy"><figcaption><b>Sala de espera</b><span>Poltronas confortáveis para esperar sem pressa.</span></figcaption></figure>
         <figure><span class="tag">Diagnóstico</span><img src="assets/img/avaliacao.jpg" alt="Dr. Kleber ao lado de uma radiografia panorâmica na tela" loading="lazy"><figcaption><b>Avaliação por imagem</b><span>Você vê o que o dentista vê, e entende por quê.</span></figcaption></figure>
       </div>
-      <a class="btn-ig daily-more" href="https://www.instagram.com/mazon.odontologia/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>Acompanhe no Instagram @mazon.odontologia</a>
+      <a class="btn-ig daily-more" href="https://www.instagram.com/mazon.odontologia/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>Acompanhe no Instagram<span class="at"> @mazon.odontologia</span></a>
     </div>
   </section>
 
@@ -1374,7 +1414,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     const r = best.r, visW = VIS_H * w/h;
     const T = { x:((r.left + r.width/2)/w*2 - 1) * visW/2, y:-((r.top + r.height/2)/h*2 - 1) * VIS_H/2,
                 // on narrow screens the exploded view needs more headroom than the stage gives it
-                s:(r.height/h) * VIS_H / (best.fit * (best.id === 'asm' && w < 760 ? 1.35 : 1)), gap:0, ex:0, orb:1 };
+                s:(r.height/h) * VIS_H / (best.fit * (best.id === 'asm' && w < 760 ? 1.15 : 1)), gap:0, ex:0, orb:1 };
 
     // the missing piece: parts separate, hold for the spec labels, then lock back together
     const ar = asm.getBoundingClientRect();
