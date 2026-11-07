@@ -100,9 +100,9 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .ld-inner{display:grid;justify-items:center;gap:18px;transition:opacity .4s,transform .6s}
 .is-loaded .ld-inner{opacity:0;transform:translateY(-30px)}
 .ld-mark{width:min(210px,46vw);overflow:visible}
-.ld-tooth{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:ldDraw 2.2s cubic-bezier(.6,0,.3,1) infinite}
-.ld-tooth.inner{stroke-width:1.5;animation-delay:.25s}
-@keyframes ldDraw{0%{stroke-dashoffset:1}45%,60%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
+.ld-tooth{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--len,80);stroke-dashoffset:var(--len,80);animation:ldDraw 2.2s cubic-bezier(.6,0,.3,1) infinite}
+.ld-tooth.inner{--len:12;stroke-width:1.5;animation-delay:.25s}
+@keyframes ldDraw{0%{stroke-dashoffset:var(--len,80)}45%,60%{stroke-dashoffset:0}100%{stroke-dashoffset:calc(var(--len,80) * -1)}}
 .ld-orbit ellipse{fill:none;stroke:currentColor;stroke-width:.8;opacity:.55}
 .ld-bead{fill:var(--gold);offset-path:path('M2 20a38 12 0 1 0 76 0a38 12 0 1 0 -76 0');animation:ldBead 1.8s linear infinite}
 @keyframes ldBead{to{offset-distance:100%}}
@@ -254,6 +254,8 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .daily-grid figcaption b{font-family:var(--f-display);font-weight:500;font-size:1.25rem;letter-spacing:-.02em}
 .daily-grid figcaption span{font-size:.88rem;color:#D7E2DE;max-height:0;opacity:0;overflow:hidden;transition:max-height .5s,opacity .4s}
 .daily-grid figure .tag{position:absolute;top:14px;left:14px;z-index:2;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.45em .8em;border-radius:99px;background:rgba(239,238,232,.9);color:var(--teal);transform:translateY(-8px);opacity:0;transition:.4s}
+/* hover effects only where there is a real pointer; on touch they stick after a tap and leave cards faded */
+@media (hover:hover) and (pointer:fine){
 .daily-grid:has(figure:hover) figure:not(:hover){opacity:.62}
 .daily-grid figure:hover{opacity:1;box-shadow:0 30px 60px -30px rgba(5,31,30,.6)}
 .daily-grid figure:nth-child(odd):hover{transform:translateY(-10px)}
@@ -262,6 +264,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .daily-grid figure:hover::after{opacity:1}
 .daily-grid figure:hover figcaption span{max-height:4em;opacity:1}
 .daily-grid figure:hover .tag{transform:none;opacity:1}
+}
 
 /* ---------- line shapes in the background (cogo-style grid of rounded forms) ---------- */
 .deco{position:absolute;pointer-events:none;color:var(--gold);opacity:.13;width:min(620px,70vw);height:auto;overflow:visible;-webkit-mask-image:radial-gradient(closest-side,#000 35%,transparent 100%);mask-image:radial-gradient(closest-side,#000 35%,transparent 100%)}
@@ -730,8 +733,8 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   <div class="ld-inner">
     <svg class="ld-mark" viewBox="0 0 80 64">
       <g transform="translate(20 8)">
-        <path class="ld-tooth" pathLength="1" d="M13.4 9.6c2 0 3 .9 6.6.9s4.6-.9 6.6-.9c3 0 4.5 2.6 4.5 5.6 0 2.9-1.1 4.9-2 7.6-.9 2.8-1.2 6.4-3.2 6.4-2.3 0-2-5.8-5.9-5.8s-3.6 5.8-5.9 5.8c-2 0-2.3-3.6-3.2-6.4-.9-2.7-2-4.7-2-7.6 0-3 1.5-5.6 4.5-5.6Z"/>
-        <path class="ld-tooth inner" pathLength="1" d="M15.6 13.4c1.6.5 2.8.8 4.4.8s2.8-.3 4.4-.8"/>
+        <path class="ld-tooth" d="M13.4 9.6c2 0 3 .9 6.6.9s4.6-.9 6.6-.9c3 0 4.5 2.6 4.5 5.6 0 2.9-1.1 4.9-2 7.6-.9 2.8-1.2 6.4-3.2 6.4-2.3 0-2-5.8-5.9-5.8s-3.6 5.8-5.9 5.8c-2 0-2.3-3.6-3.2-6.4-.9-2.7-2-4.7-2-7.6 0-3 1.5-5.6 4.5-5.6Z"/>
+        <path class="ld-tooth inner" d="M15.6 13.4c1.6.5 2.8.8 4.4.8s2.8-.3 4.4-.8"/>
       </g>
       <g class="ld-orbit" transform="translate(0 6) rotate(-14 40 20)">
         <ellipse cx="40" cy="20" rx="38" ry="12"/>
@@ -1110,7 +1113,8 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 
   // sections rise in as they enter; siblings follow each other with a short stagger
   if (!reduce && 'IntersectionObserver' in window){
-    const groups = ['.about-in > *', '.daily-head > *', '.daily-grid > figure', '.daily-more', '.mission-in > *', '.tr-head > *', '.tr-grid > *', '.why-copy > *', '.orbit-wrap', '.rev-photos', '.rev-quote > *', '.plan-copy > *', '.plan-cards > *', '.contact-top > *', '.info > div'];
+    // the photo strip scrolls sideways on phones, where cards off to the side would never reveal
+    const groups = ['.about-in > *', '.daily-head > *', ...(innerWidth > 760 ? ['.daily-grid > figure'] : []), '.daily-more', '.mission-in > *', '.tr-head > *', '.tr-grid > *', '.why-copy > *', '.orbit-wrap', '.rev-photos', '.rev-quote > *', '.plan-copy > *', '.plan-cards > *', '.contact-top > *', '.info > div'];
     const els = [];
     groups.forEach(sel => document.querySelectorAll(sel).forEach(el => {
       const i = [...el.parentElement.children].indexOf(el);
