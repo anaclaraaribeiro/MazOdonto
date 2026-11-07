@@ -224,7 +224,7 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 .about-copy .eyebrow{color:var(--gold)}
 .about-copy h2{font-family:var(--f-display);font-weight:500;font-stretch:82%;font-variation-settings:"wdth" 82,"opsz" 96;font-size:clamp(2.4rem,4.8vw,4.6rem);line-height:1;letter-spacing:-.04em;text-wrap:balance}
 .about-copy h2 em.s{color:var(--gold)}
-.about-copy > p{max-width:56ch;color:var(--mist);font-size:1.05rem}
+.about-copy > p:not(.eyebrow){max-width:56ch;color:var(--mist);font-size:1.05rem}
 .pts{list-style:none;margin:0;padding:0;display:grid;border-top:1px solid rgba(239,238,232,.12)}
 .pts li{display:grid;grid-template-columns:46px minmax(0,1fr);gap:18px;padding:20px 0;border-bottom:1px solid rgba(239,238,232,.14)}
 .pts .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(210,176,100,.12);color:var(--gold)}
@@ -477,7 +477,6 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
   .asm-side{display:none}
   .asm-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 0}
   .asm-steps li:nth-child(3){border-left:0}
-  .asm-ui{display:none}
   .about-in{grid-template-columns:1fr}
   .doc-card{max-width:440px}
   .daily-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding-bottom:0}
@@ -704,6 +703,25 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
 
   /* reviews: rating card sits neatly inside the photo corner */
   .rev-score{right:12px;bottom:calc(12% + 12px)}
+}
+/* ---------- phones, third pass ---------- */
+@media (max-width:760px){
+  /* the missing piece: ghost words frame the tooth instead of the title; compact part labels */
+  .ghost.g1{top:29%}
+  .ghost.g2{bottom:23%}
+  .part{max-width:120px;gap:2px}
+  .part b{font-size:.64rem;letter-spacing:.1em;gap:6px}
+  .part b::before{width:6px;height:6px;box-shadow:0 0 0 3px rgba(142,110,42,.15)}
+  .part span{font-size:.7rem;line-height:1.35;padding-left:12px}
+
+  /* why: the photo gets an explicit box (iOS dropped it with inset + aspect-ratio) */
+  .orbit-face{inset:auto;left:27%;top:27%;width:46%;height:46%;aspect-ratio:auto}
+
+  /* a day at the clinic: one card per swipe */
+  .daily-grid figure{scroll-snap-stop:always}
+
+  /* doctor: a slightly shorter portrait */
+  .doc-card{aspect-ratio:1/1.08}
 }
 </style>
 </head>
@@ -1418,8 +1436,10 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     const r = best.r, visW = VIS_H * w/h;
     const T = { x:((r.left + r.width/2)/w*2 - 1) * visW/2, y:-((r.top + r.height/2)/h*2 - 1) * VIS_H/2,
                 // on narrow screens the exploded view needs more headroom than the stage gives it
-                s:(r.height/h) * VIS_H / (best.fit * (best.id === 'asm' && w < 760 ? 1.15 : 1)), gap:0, ex:0, orb:1 };
+                s:(r.height/h) * VIS_H / (best.fit * (best.id === 'asm' && w < 760 ? 1.24 : 1)), gap:0, ex:0, orb:1 };
 
+    // on phones the model moves left to leave room for the part labels
+    if (best.id === 'asm' && w < 760){ T.x -= visW * .12; T.y -= VIS_H * .025; }
     // the missing piece: parts separate, hold for the spec labels, then lock back together
     const ar = asm.getBoundingClientRect();
     const ap = clamp(-ar.top / (ar.height - h), 0, 1);
@@ -1491,14 +1511,15 @@ em.s{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing
     }
 
     // spec labels for each part of the exploded view
-    const ao = best.id === 'asm' && w > 980 ? clamp((S.ex - .55)/.35, 0, 1) : 0;
+    const ao = best.id === 'asm' ? clamp((S.ex - .55)/.35, 0, 1) : 0;
     asmUi.style.opacity = ao;
     if (ao > 0){
       const stageR = asmStage.getBoundingClientRect().right;
       for (let i=0;i<3;i++){
         const [m, lxp, lyp] = PART_PT[i];
         const [px, py] = toScreen(m.localToWorld(v3.set(lxp, lyp, 0)));
-        const lx = Math.max(px + 60, stageR - 30);
+        // wide screens line the labels up past the stage; narrow ones keep them next to each part
+        const lx = w < 980 ? Math.min(px + 46, w - parts[i].offsetWidth - 12) : Math.max(px + 60, stageR - 30);
         parts[i].style.transform = 'translate(' + lx + 'px,' + (py - 9) + 'px)';
         plines[i].style.width = Math.max(0, lx - 10 - px) + 'px';
         plines[i].style.transform = 'translate(' + px + 'px,' + py + 'px)';
